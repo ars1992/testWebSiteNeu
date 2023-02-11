@@ -20,19 +20,23 @@
 }
 
 
-.text_input{
-    grid-column: 7/ 16;
-    grid-row: 2;
+.text_lauf{
+    margin-bottom: 1vw;
+    font-size: 3vw;
+    margin-top: 1vw;
+}
+.text_lauf-f{
+    grid-column: 1/11;
+    text-align: right;
 }
 
-.text_time{
-    background-color: blueviolet;
-    grid-column: 16/23;
-    grid-row: 2;
+.text_lauf-m{
+    grid-column: 12;
     text-align: center;
+    color: green;
 }
 
-.text_start{
-    grid-column: 1/8;
-    grid-row: 2;
+.text_lauf-a{
+    grid-column: 13/23;
+    text-align: left;
 }

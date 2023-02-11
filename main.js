@@ -22,18 +22,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const buttonStartTimer = document.querySelector(".menue_startButton")
     const menueTimer = document.querySelector(".menue_timer")
     const auswahlTime = document.querySelector(".menue_zeitAuswahl")
-    let userTime = 1
+    let userTime = 60
     let timer;
     let timerGestartet = false
 
 
     // Textauswahl
     const menueTextAuswahl = document.querySelector(".menue_textAuswahl")
-    const textLauf = document.querySelector(".text_lauf")
     const texte = new Map([
-        ["Text1", "Hallo hhhhhhhhhhdtztruqwerrtzuiopasdfghjklöyxcvbnm  dfghjwertzvf dfgh yswxde cfr vgtrfc bhzujnm "],
+        ["Text1", "ssss ssss ssss"],
         ["Text2", "welt ffffffffffffkkkkkkkkkkk eee abcdef"],
-        ["Text3", "jetzt qwertz uiopü as df gh jk löä yx cvbn m"]])
+        ["Text3", "sein rad flog zum pkw byt cjv qhx äöüß"]])
+    let text = "text"
+    let textCounter = 0
+
+    // Textlauf
+    let textLaufF = document.querySelector(".text_lauf-f")
+    let textLaufM = document.querySelector(".text_lauf-m")
+    let textLaufA = document.querySelector(".text_lauf-a")
+    textLaufF.innerHTML = text.slice(0, textCounter)
+    textLaufM.innerHTML = text[textCounter]
+    textLaufA.innerHTML = text.slice(textCounter + 1, 10)
 
     // anschläge pro min
     let anschlaege = 0
@@ -44,19 +53,46 @@ document.addEventListener("DOMContentLoaded", () => {
     // auswertung
     const auswertungAnschlaege = document.querySelector(".span_anschlaege")
     const auswertungAnzeigen = document.querySelector(".auswertung")
-
+    
+    let fehler = 0
+    const spanFehlerProzent = document.querySelector(".span_fehlerProzent")
+    const spanFehlergesamt = document.querySelector(".span_fehlergesamt")
     // Hier Hauptprogramm
-    window.addEventListener("keypress", (x) => {
-        console.log(x, " lampda", anschlaege)
-        anschlaege++
+    let gestartet = false
+    window.addEventListener("keypress", (ev) => {
+        if (textCounter < text.length) {
+            anschlaege++
+        }
+        
+
+        if (String.fromCharCode(ev.keyCode) === " " && !gestartet) {
+            timerStart()
+            gestartet = true
+            timerGestartet = true
+        }
+        key(ev)
+        let buchstabeZurKontrolle = textLaufF.innerText[textLaufF.innerText.length -1]
+        let buchstabeZurAnzeige = textLaufM.innerText
+        tastenMarkiren(buchstabeZurAnzeige)
+        if(buchstabeZurKontrolle !== String.fromCharCode(ev.keyCode) && buchstabeZurKontrolle !== undefined){
+            fehler++
+        }
+
     })
 
 
     // Funktionen Auswertung Anzeigen
+    function fehlerInProzent(fehler, textCounter){
+        return parseInt(fehler / textCounter * 100)
+    }
+
     function autoAuswertung() {
+        setTimeout(clearInterval(timer), 50)
         auswertungAnzeigen.classList.add("auswertung_notNone")
         auswertungAnzeigen.classList.remove("auswertung_none")
-        auswertungAnschlaege.innerHTML = parseInt(anschlaegeProMin)
+        auswertungAnschlaege.innerText = parseInt(anschlaegeProMin)
+        spanFehlergesamt.innerText = fehler
+        spanFehlerProzent.innerText = fehlerInProzent(fehler, textCounter)
     }
 
     auswertungReset.addEventListener("click", () => {
@@ -66,7 +102,13 @@ document.addEventListener("DOMContentLoaded", () => {
         anschlaegeProMin.innerText = 0
         buttonStartTimer.innerText = "Start"
         timerGestartet = false
+        gestartet = false
+        fehler = 0
         setTimeout(clearInterval(timer), 50)
+        textCounter = 0
+        text = "noch ne runde"
+        laufenderText()
+
 
     })
 
@@ -85,7 +127,9 @@ document.addEventListener("DOMContentLoaded", () => {
     menueTextAuswahl.addEventListener("click", () => {
         if (!ersteWahl) {
             let t = menueTextAuswahl.value
-            textLauf.innerHTML = texte.get(t)
+            //textLauf.innerHTML = texte.get(t)
+            text = texte.get(t)
+            laufenderText()
         } else ersteWahl = false
     })
 
@@ -107,10 +151,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }, 100)
 
+
     buttonStartTimer.addEventListener("click", () => {
         if (!timerGestartet) {
             timerStart()
             timerGestartet = true
+            gestartet = true
         } else {
             autoAuswertung()
         }
@@ -125,6 +171,39 @@ document.addEventListener("DOMContentLoaded", () => {
             menueTimer.innerText = parseInt((Date.now() - startTime) / 1_000)
         }, 100)
         buttonStartTimer.innerText = "Stop"
+    }
+
+    // Textlauf
+
+
+
+    function key() {
+        let aktuellerBuchstabeTextStart = document.querySelector(".text_lauf-m").innerHTML
+        let aktuellerBuchstabeText = document.querySelector(".text_lauf-a").innerHTML[0]
+
+        laufenderText()
+
+        if (textCounter >= text.length) {
+            autoAuswertung()
+            return
+        }
+
+        if (textCounter == 0) {
+            tastenMarkiren(aktuellerBuchstabeTextStart)
+        } else {
+            tastenMarkiren(aktuellerBuchstabeText)
+        }
+        textCounter++
+    }
+
+    function laufenderText() {
+        if (textCounter < 15) {
+            textLaufF.innerHTML = text.slice(0, textCounter)
+        } else {
+            textLaufF.innerHTML = text.slice(textCounter - 15, textCounter)
+        }
+        textLaufM.innerHTML = "<u>" + text[textCounter] + "<u>"
+        textLaufA.innerHTML = text.slice(textCounter + 1, textCounter + 15)
     }
 
 

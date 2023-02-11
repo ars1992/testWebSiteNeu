@@ -8,3 +8,8 @@ Noch in Arbeit:
 - fehler in auswertung
 - text lauf
 - tasten anzeige
+
+probleme
+- leertasten ist ein echtes probleme
+- ich muss wohl meinen text lauf verändern 
+- andere buchstaben auser leertaste starten den timer nicht
