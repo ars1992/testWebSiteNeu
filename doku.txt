@@ -1,0 +1,10 @@
+Erledigt:
+- timer
+- anschlagmessung
+
+Noch in Arbeit:
+- fehler Analyse
+- programmstart
+- fehler in auswertung
+- text lauf
+- tasten anzeige

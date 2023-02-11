@@ -1,0 +1,38 @@
+.text {
+    grid-column: 3/8;
+    grid-row: 1;
+    background-color: aqua;
+}
+
+.text_grid{
+    display: grid;
+    grid-template-columns: repeat(22, 4.54545454%);
+    grid-template-rows: repeat(2, auto);
+}
+
+.text_lauf{
+    grid-row: 1;
+    grid-column: 1/23;
+    margin-bottom: 1vw;
+    margin-top: 1vw;
+    font-size: 3vw;
+    text-align: center;
+}
+
+
+.text_input{
+    grid-column: 7/ 16;
+    grid-row: 2;
+}
+
+.text_time{
+    background-color: blueviolet;
+    grid-column: 16/23;
+    grid-row: 2;
+    text-align: center;
+}
+
+.text_start{
+    grid-column: 1/8;
+    grid-row: 2;
+}

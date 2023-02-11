@@ -1,0 +1,63 @@
+.menue{
+    grid-column: 8/9;
+    grid-row: 1/6;
+    background-color: lawngreen;
+}
+
+.menue_grid{
+    display: grid;
+    grid-template-rows: 5vw 5vw auto 5vw auto 5vw 5vw;
+    grid-template-columns: 1vw 8vw 1vw;
+}
+
+.menue_anschlaegeMin{
+    grid-row: 1;
+    grid-column: 2;
+    text-align: center;
+    font-size: 3vw;
+    margin: 1vw 0 ;
+}
+
+.menue_startButton{
+    font-size: 2vw;
+    grid-column: 2;
+    grid-row: 2;
+    margin: 0 0 2vw;
+}
+
+.menue_paragraphTextAuswahl{
+    font-size: 1.5vw;
+    grid-column: 2;
+    grid-row: 3;
+    text-align: center;
+}
+
+.menue_textAuswahl{
+    font-size: 2vw;
+    grid-column: 2;
+    margin: 1vw 0;
+    grid-row: 4;
+}
+
+.menue_paragrapZeitAuswahl{
+    font-size: 1.5vw;
+    grid-column: 2;
+    grid-row: 5;
+    text-align: center;
+}
+
+.menue_zeitAuswahl{
+    font-size: 2vw;
+    grid-column: 2;
+    grid-row: 6;
+    margin: 1vw 0;
+}
+
+
+.menue_timer{
+    grid-column: 2;
+    grid-row: 7;
+    text-align: center;
+    font-size: 3vw;
+    margin: 5vw 0;
+}

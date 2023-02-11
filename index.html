@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="reset.css" />
+    <link rel="stylesheet" href="card.css" />
+    <link rel="stylesheet" href="text.css" />
+    <link rel="stylesheet" href="menue.css" />
+    <title>Document</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      .card {
+        margin-top: 5vw;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="menue">
+        <div class="menue_grid">
+          <p class="menue_anschlaegeMin">0</p>
+          <button class="menue_startButton">Start</button>
+          <p class="menue_paragraphTextAuswahl">Textauswahl</p>
+          <select class="menue_textAuswahl">
+            <option value="Text1" class="menue_textOption">1</option>
+            <option value="Text2" class="menue_textOption">2</option>
+            <option value="Text3" class="menue_textOption">3</option>
+          </select>
+          <p class="menue_paragrapZeitAuswahl">Zeitauswahl</p>
+          <select class="menue_zeitAuswahl">
+            <option value="10" class="menue_textOption">10s</option>
+            <option value="20" class="menue_textOption">20s</option>
+            <option value="30" class="menue_textOption">30s</option>
+            <option value="40" class="menue_textOption">40s</option>
+            <option value="60" class="menue_textOption">60s</option>
+            <option value="70" class="menue_textOption">70s</option>
+          </select>
+          <p class="menue_timer">0</p>
+        </div>
+      </div>
+      <div class="text">
+        <div class="text_grid">
+          <p class="text_lauf">Text</p>
+        </div>
+      </div>
+      <div class="tasta">
+        <div class="tasta_grid">
+          <div class="tasta_taste-1 taste">1</div>
+          <div class="tasta_taste-blau taste">blau</div>
+          <div class="tasta_taste-2 taste">2</div>
+          <div class="tasta_taste-3 taste">3</div>
+          <div class="tasta_taste-4 taste">4</div>
+          <div class="tasta_taste-5 taste">5</div>
+          <div class="tasta_taste-gelb taste">gelb</div>
+          <div class="tasta_taste-rot taste">rot</div>
+          <div class="tasta_taste-9 taste">9</div>
+          <div class="tasta_taste-10 taste">10</div>
+          <div class="tasta_controll-1 taste-controll">cc-1</div>
+          <div class="tasta_controll-2 taste-controll">cc-2</div>
+        </div>
+      </div>
+      <div class="auswertung auswertung_none">
+        <div class="auswertung_grid">
+          <h2 class="auswertung_sub">Auswertung</h2>
+          <p class="auswertung_fehlergesamt">Fehlergesamt:</p>
+          <p class="auswertung_fehlerProzent">In Prozent:</p>
+          <p class="auswertung_anschlaege">
+            Anschläge: <span class="span_anschlaege">0</span>
+          </p>
+          <table class="auswertung_table">
+            <tr class="auswertung_tr">
+              <th class="auswertung_th">Buchstabe</th>
+              <th class="auswertung_th">Fehler</th>
+              <th class="auswertung_th">Von</th>
+            </tr>
+            <tr class="auswertung_tr">
+              <th class="auswertung_th">A</th>
+              <th class="auswertung_th">3</th>
+              <th class="auswertung_th">5</th>
+            </tr>
+            <tr class="auswertung_tr">
+              <th class="auswertung_th">B</th>
+              <th class="auswertung_th">2</th>
+              <th class="auswertung_th">5</th>
+            </tr>
+            <tr class="auswertung_tr">
+              <th class="auswertung_th">g</th>
+              <th class="auswertung_th">1</th>
+              <th class="auswertung_th">1</th>
+            </tr>
+            <tr class="auswertung_tr">
+              <th class="auswertung_th">x</th>
+              <th class="auswertung_th">0</th>
+              <th class="auswertung_th">1</th>
+            </tr>
+            <tr class="auswertung_tr">
+                <th class="auswertung_th">x</th>
+                <th class="auswertung_th">0</th>
+                <th class="auswertung_th">1</th>
+              </tr>
+          </table>
+          <button class="auswertung_resetButton">Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="main.js"></script>
+  </body>
+</html>
