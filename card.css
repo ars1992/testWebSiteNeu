@@ -53,6 +53,9 @@
 }
 
 .tasta_taste-3{
+    display: flex;
+    align-items:center;
+    justify-content: center;
     grid-column: 6;
     grid-row: 2;
 }
@@ -109,6 +112,14 @@
     background-color: yellow;
 }
 
+.green{
+    background-color: green;
+}
+
+.white{
+    background-color: whitesmoke;
+}
+
 .start_paragraph{
     margin: 1vw 0;
     transition: 1s;
@@ -132,6 +143,7 @@
     border: 2px black solid;
 }
 
+/* Auswertung */
 .auswertung{
     grid-column: 3/9;
     grid-row: 1/6;
