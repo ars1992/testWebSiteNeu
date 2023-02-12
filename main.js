@@ -30,10 +30,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // Textauswahl
     const menueTextAuswahl = document.querySelector(".menue_textAuswahl")
     const texte = new Map([
-        ["Text1", "ssss ssss ssss"],
+        ["Text1", "AAAA&nbsp;ssUss&nbsp;ssBss&nbsp;ssXss"],
         ["Text2", "welt ffffffffffffkkkkkkkkkkk eee abcdef"],
         ["Text3", "sein rad flog zum pkw byt cjv qhx äöüß"]])
-    let text = "text"
+    let text = "sein rad flog zum pkw byt cjv qhx äöüß"
     let textCounter = 0
 
     // Textlauf
@@ -53,37 +53,61 @@ document.addEventListener("DOMContentLoaded", () => {
     // auswertung
     const auswertungAnschlaege = document.querySelector(".span_anschlaege")
     const auswertungAnzeigen = document.querySelector(".auswertung")
-    
     let fehler = 0
     const spanFehlerProzent = document.querySelector(".span_fehlerProzent")
     const spanFehlergesamt = document.querySelector(".span_fehlergesamt")
+
+    // Start Anweisung
+    let startInterval;
+    const startAnweisung = document.querySelector(".start")
+    const startParagraph = document.querySelector(".start_paragraph")
+    flackernStart()
+
     // Hier Hauptprogramm
     let gestartet = false
     window.addEventListener("keypress", (ev) => {
         if (textCounter < text.length) {
             anschlaege++
         }
-        
 
         if (String.fromCharCode(ev.keyCode) === " " && !gestartet) {
             timerStart()
             gestartet = true
             timerGestartet = true
+            setTimeout(clearInterval(startInterval))
+            startAnweisung.classList.add("auswertung_none")
         }
-        key(ev)
-        let buchstabeZurKontrolle = textLaufF.innerText[textLaufF.innerText.length -1]
-        let buchstabeZurAnzeige = textLaufM.innerText
-        tastenMarkiren(buchstabeZurAnzeige)
-        if(buchstabeZurKontrolle !== String.fromCharCode(ev.keyCode) && buchstabeZurKontrolle !== undefined){
-            fehler++
+
+        if (timerGestartet) {
+            key()
+            let buchstabeZurKontrolle = text[textCounter - 1]
+            tastenMarkiren(text[textCounter])
+            textCounter++
+            if (buchstabeZurKontrolle !== String.fromCharCode(ev.keyCode) && buchstabeZurKontrolle !== undefined) {
+                fehler++
+                console.log(buchstabeZurKontrolle, ev.keyCode)
+            }
         }
 
     })
+    
+    // Start Anweisung
+    function flackernStart() {
+        startInterval = setInterval(() => {
+            startParagraph.classList.toggle("start_flackern")
+        }, 1000)
+    }
 
 
     // Funktionen Auswertung Anzeigen
-    function fehlerInProzent(fehler, textCounter){
-        return parseInt(fehler / textCounter * 100)
+    function fehlerInProzent(fehler, textCounter) {
+        timerGestartet = false
+        const prozentFehler = parseInt(fehler / textCounter * 100)
+        if (isNaN(prozentFehler)) {
+            return 0
+        } else {
+            return prozentFehler
+        }
     }
 
     function autoAuswertung() {
@@ -96,18 +120,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     auswertungReset.addEventListener("click", () => {
+        startAnweisung.classList.remove("auswertung_none")
         auswertungAnzeigen.classList.add("auswertung_none")
         auswertungAnzeigen.classList.remove("auswertung_notNone")
         menueTimer.innerText = 0
         anschlaegeProMin.innerText = 0
-        buttonStartTimer.innerText = "Start"
         timerGestartet = false
         gestartet = false
         fehler = 0
         setTimeout(clearInterval(timer), 50)
         textCounter = 0
-        text = "noch ne runde"
+        text = texte.get(menueTextAuswahl.value)
         laufenderText()
+        flackernStart()
 
 
     })
@@ -153,13 +178,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     buttonStartTimer.addEventListener("click", () => {
-        if (!timerGestartet) {
-            timerStart()
-            timerGestartet = true
-            gestartet = true
-        } else {
-            autoAuswertung()
-        }
+        autoAuswertung()
+        startAnweisung.classList.add("auswertung_none")
+
+        // if (!timerGestartet) {
+        //     timerStart()
+        //     timerGestartet = true
+        //     gestartet = true
+        //     key()
+        //     tastenMarkiren(text[textCounter])
+        // } else {
+        //     autoAuswertung()
+        // }
     })
 
 
@@ -170,16 +200,12 @@ document.addEventListener("DOMContentLoaded", () => {
         timer = setInterval(() => {
             menueTimer.innerText = parseInt((Date.now() - startTime) / 1_000)
         }, 100)
-        buttonStartTimer.innerText = "Stop"
     }
 
     // Textlauf
-
-
-
     function key() {
-        let aktuellerBuchstabeTextStart = document.querySelector(".text_lauf-m").innerHTML
-        let aktuellerBuchstabeText = document.querySelector(".text_lauf-a").innerHTML[0]
+        // let aktuellerBuchstabeTextStart = document.querySelector(".text_lauf-m").innerHTML
+        // let aktuellerBuchstabeText = document.querySelector(".text_lauf-a").innerHTML[0]
 
         laufenderText()
 
@@ -188,12 +214,13 @@ document.addEventListener("DOMContentLoaded", () => {
             return
         }
 
-        if (textCounter == 0) {
-            tastenMarkiren(aktuellerBuchstabeTextStart)
-        } else {
-            tastenMarkiren(aktuellerBuchstabeText)
-        }
-        textCounter++
+        // if (textCounter == 0) {
+        //     tastenMarkiren(aktuellerBuchstabeTextStart)
+        // } else {
+        //     tastenMarkiren(aktuellerBuchstabeText)
+        //    // textCounter++
+
+        // }
     }
 
     function laufenderText() {
@@ -216,10 +243,13 @@ document.addEventListener("DOMContentLoaded", () => {
         taste5.style.backgroundColor = colorWhite
 
         tasteBlau.style.backgroundColor = colorBlue
-        tasteGelb.style.backgroundColor = colorYellow
-        tasteRot.style.backgroundColor = colorRed
+        // tasteGelb.style.backgroundColor = colorYellow
+        // tasteRot.style.backgroundColor = colorRed
         taste9.style.backgroundColor = colorDarkblue
         taste10.style.backgroundColor = colorDarkblue
+        tasteGelb.classList.remove("shift")
+        tasteRot.classList.remove("shift")
+        setTimeout(clearInterval(shiftAnzeige))
 
 
 
@@ -374,76 +404,70 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Großbuchstaben
         if (buchstabe === "A") {
-            tasteGelb.style.backgroundColor = colorGreen
-            tasteRot.style.backgroundColor = colorGreen
+            // tasteGelb.style.backgroundColor = colorGreen
+            // tasteRot.style.backgroundColor = colorGreen
             taste1.style.backgroundColor = colorGreen
             taste4.style.backgroundColor = colorGreen
+            schift()
+
         }
 
         if (buchstabe === "B") {
-            tasteGelb.style.backgroundColor = colorGreen
-            tasteRot.style.backgroundColor = colorGreen
+            schift()
             taste1.style.backgroundColor = colorGreen
             taste3.style.backgroundColor = colorGreen
             taste4.style.backgroundColor = colorGreen
         }
 
         if (buchstabe === "C") {
-            tasteGelb.style.backgroundColor = colorGreen
-            tasteRot.style.backgroundColor = colorGreen
+            schift()
             taste2.style.backgroundColor = colorGreen
             taste4.style.backgroundColor = colorGreen
         }
 
         if (buchstabe === "D") {
-            tasteGelb.style.backgroundColor = colorGreen
-            tasteRot.style.backgroundColor = colorGreen
+            schift()
             taste1.style.backgroundColor = colorGreen
             taste5.style.backgroundColor = colorGreen
         }
 
         if (buchstabe === "E") {
+            schift()
             taste3.style.backgroundColor = colorGreen
         }
 
         if (buchstabe === "F") {
-            tasteGelb.style.backgroundColor = colorGreen
-            tasteRot.style.backgroundColor = colorGreen
+            schift()
             taste1.style.backgroundColor = colorGreen
             taste2.style.backgroundColor = colorGreen
         }
 
         if (buchstabe === "G") {
-            tasteGelb.style.backgroundColor = colorGreen
-            tasteRot.style.backgroundColor = colorGreen
+            schift()
             taste4.style.backgroundColor = colorGreen
             taste5.style.backgroundColor = colorGreen
         }
 
         if (buchstabe === "H") {
-            tasteGelb.style.backgroundColor = colorGreen
-            tasteRot.style.backgroundColor = colorGreen
+            schift()
             taste1.style.backgroundColor = colorGreen
             taste2.style.backgroundColor = colorGreen
             taste5.style.backgroundColor = colorGreen
         }
 
         if (buchstabe === "I") {
-            tasteGelb.style.backgroundColor = colorGreen
-            tasteRot.style.backgroundColor = colorGreen
+            schift()
             taste4.style.backgroundColor = colorGreen
         }
 
         if (buchstabe === "J") {
-            tasteGelb.style.backgroundColor = colorGreen
-            tasteRot.style.backgroundColor = colorGreen
+            schift()
             taste2.style.backgroundColor = colorGreen
             taste5.style.backgroundColor = colorGreen
         }
 
         if (buchstabe === "K") {
-            tasteGelb.style.backgroundColor = colorGreen
-            tasteRot.style.backgroundColor = colorGreen
+            schift()
             taste2.style.backgroundColor = colorGreen
             taste3.style.backgroundColor = colorGreen
             taste4.style.backgroundColor = colorGreen
@@ -451,36 +475,31 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (buchstabe === "L") {
-            tasteGelb.style.backgroundColor = colorGreen
-            tasteRot.style.backgroundColor = colorGreen
+            schift()
             taste2.style.backgroundColor = colorGreen
             taste3.style.backgroundColor = colorGreen
         }
 
         if (buchstabe === "M") {
-            tasteGelb.style.backgroundColor = colorGreen
-            tasteRot.style.backgroundColor = colorGreen
+            schift()
             taste3.style.backgroundColor = colorGreen
             taste4.style.backgroundColor = colorGreen
             taste5.style.backgroundColor = colorGreen
         }
 
         if (buchstabe === "N") {
-            tasteGelb.style.backgroundColor = colorGreen
-            tasteRot.style.backgroundColor = colorGreen
+            schift()
             taste5.style.backgroundColor = colorGreen
         }
 
         if (buchstabe === "O") {
-            tasteGelb.style.backgroundColor = colorGreen
-            tasteRot.style.backgroundColor = colorGreen
+            schift()
             taste3.style.backgroundColor = colorGreen
             taste4.style.backgroundColor = colorGreen
         }
 
         if (buchstabe === "P") {
-            tasteGelb.style.backgroundColor = colorGreen
-            tasteRot.style.backgroundColor = colorGreen
+            schift()
             taste1.style.backgroundColor = colorGreen
             taste2.style.backgroundColor = colorGreen
             taste3.style.backgroundColor = colorGreen
@@ -488,29 +507,25 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (buchstabe === "Q") {
-            tasteGelb.style.backgroundColor = colorGreen
-            tasteRot.style.backgroundColor = colorGreen
+            schift()
             taste1.style.backgroundColor = colorGreen
             taste2.style.backgroundColor = colorGreen
             taste4.style.backgroundColor = colorGreen
         }
 
         if (buchstabe === "R") {
-            tasteGelb.style.backgroundColor = colorGreen
-            tasteRot.style.backgroundColor = colorGreen
+            schift()
             taste1.style.backgroundColor = colorGreen
             taste3.style.backgroundColor = colorGreen
         }
 
         if (buchstabe === "S") {
-            tasteGelb.style.backgroundColor = colorGreen
-            tasteRot.style.backgroundColor = colorGreen
+            schift()
             taste2.style.backgroundColor = colorGreen
         }
 
         if (buchstabe === "T") {
-            tasteGelb.style.backgroundColor = colorGreen
-            tasteRot.style.backgroundColor = colorGreen
+            schift()
             taste1.style.backgroundColor = colorGreen
             taste3.style.backgroundColor = colorGreen
             taste4.style.backgroundColor = colorGreen
@@ -518,24 +533,21 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (buchstabe === "U") {
-            tasteGelb.style.backgroundColor = colorGreen
-            tasteRot.style.backgroundColor = colorGreen
+            schift()
             taste2.style.backgroundColor = colorGreen
             taste3.style.backgroundColor = colorGreen
             taste4.style.backgroundColor = colorGreen
         }
 
         if (buchstabe === "V") {
-            tasteGelb.style.backgroundColor = colorGreen
-            tasteRot.style.backgroundColor = colorGreen
+            schift()
             taste2.style.backgroundColor = colorGreen
             taste4.style.backgroundColor = colorGreen
             taste5.style.backgroundColor = colorGreen
         }
 
         if (buchstabe === "W") {
-            tasteGelb.style.backgroundColor = colorGreen
-            tasteRot.style.backgroundColor = colorGreen
+            schift()
             taste1.style.backgroundColor = colorGreen
             taste2.style.backgroundColor = colorGreen
             taste3.style.backgroundColor = colorGreen
@@ -544,8 +556,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (buchstabe === "X") {
-            tasteGelb.style.backgroundColor = colorGreen
-            tasteRot.style.backgroundColor = colorGreen
+            schift()
             taste1.style.backgroundColor = colorGreen
             taste2.style.backgroundColor = colorGreen
             taste4.style.backgroundColor = colorGreen
@@ -553,21 +564,28 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (buchstabe === "Y") {
-            tasteGelb.style.backgroundColor = colorGreen
-            tasteRot.style.backgroundColor = colorGreen
+            schift()
             taste1.style.backgroundColor = colorGreen
             taste4.style.backgroundColor = colorGreen
             taste5.style.backgroundColor = colorGreen
         }
 
         if (buchstabe === "Z") {
-            tasteGelb.style.backgroundColor = colorGreen
-            tasteRot.style.backgroundColor = colorGreen
+            schift()
             taste1.style.backgroundColor = colorGreen
             taste2.style.backgroundColor = colorGreen
             taste3.style.backgroundColor = colorGreen
         }
 
     }
+
+    let shiftAnzeige;
+    function schift() {
+        shiftAnzeige = setInterval(() => {
+            tasteRot.classList.toggle("shift")
+            tasteGelb.classList.toggle("shift")
+        }, 500)
+    }
+
 
 })

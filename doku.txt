@@ -1,15 +1,16 @@
 Erledigt:
 - timer
 - anschlagmessung
+- programmstart
 
 Noch in Arbeit:
 - fehler Analyse
-- programmstart
 - fehler in auswertung
-- text lauf
+- text lauf alternative ??
 - tasten anzeige
 
 probleme
+- start button evt nur noch zum stoppen
 - leertasten ist ein echtes probleme
 - ich muss wohl meinen text lauf verändern 
-- andere buchstaben auser leertaste starten den timer nicht
+- nur noch in der anzeige überprüfung funktioniert
