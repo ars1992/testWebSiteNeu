@@ -1,14 +1,32 @@
 //"use strict"
 document.addEventListener("DOMContentLoaded", () => {
     const anzahlFehlerProBuchstabe = {
-        a: ["a", 0, 0], b: ["b", 0, 0], c: ["c", 0, 0], d: ["d", 0, 0], e: ["e", 0, 0], f: ["f", 0, 0],
+        a: ["a", 0, 0], b: ["b", 0, 0], c: ["c", 0, 0],
+        d: ["d", 0, 0], e: ["e", 0, 0], f: ["f", 0, 0],
         g: ["g", 0, 0], h: ["h", 0, 0], i: ["i", 0, 0],
-        j: ["j", 0, 0], k: ["k", 0, 0], l: ["l", 0, 0], m: ["m", 0, 0], n: ["n", 0, 0], o: ["o", 0, 0],
+        j: ["j", 0, 0], k: ["k", 0, 0], l: ["l", 0, 0],
+        m: ["m", 0, 0], n: ["n", 0, 0], o: ["o", 0, 0],
         p: ["p", 0, 0], q: ["q", 0, 0], r: ["r", 0, 0],
-        s: ["s", 0, 0], t: ["t", 0, 0], u: ["u", 0, 0], v: ["v", 0, 0], w: ["w", 0, 0], x: ["x", 0, 0],
-        y: ["z", 0, 0], z: ["y", 0, 0], _: [" ", 0, 0]
-    }
+        s: ["s", 0, 0], t: ["t", 0, 0], u: ["u", 0, 0],
+        v: ["v", 0, 0], w: ["w", 0, 0], x: ["x", 0, 0],
+        y: ["z", 0, 0], z: ["y", 0, 0], _: [" ", 0, 0],
+        z0: ["0", 0, 0], z1: ["1", 0, 0], z2: ["2", 0, 0], 
+        z3: ["3", 0, 0], z4: ["4", 0, 0], z5: ["5", 0, 0], 
+        z6: ["6", 0, 0], z7: ["7", 0, 0], z8: ["8", 0, 0], 
+        z9: ["9", 0, 0],
+        s1: ["'", 0, 0], s2: ["-", 0, 0], s3: ["]", 0, 0], 
+        s4: ["^", 0, 0], s5: ["[", 0, 0], s6: ["?", 0, 0], 
+        s7: ["=", 0, 0], s8: ["#", 0, 0], s9: ["!", 0, 0], 
+        s10: ["§", 0, 0], s11: ["@", 0, 0], s12: ["_", 0, 0], 
+        s13: [">", 0, 0], s14: [")", 0, 0], s15: ["|", 0, 0], 
+        s16: ["+", 0, 0], s17: ["/", 0, 0], s18: ["$", 0, 0], 
+        s19: ["*", 0, 0], s20: ["%", 0, 0], s21: ["&", 0, 0], 
+        s22: [")", 0, 0], s23: ["<", 0, 0], s24: ["\\", 0, 0],
+        s25: ["`", 0, 0], s26: ["\"", 0, 0], s27: ["€", 0, 0], 
+        s28: [".", 0, 0], s29: [",", 0, 0], s30: [":", 0, 0], 
+        s31: [";", 0, 0], s32: ["}", 0, 0], s33: ["{", 0, 0], 
 
+    }
 
     // Tasten Anzeige
     const taste1 = document.querySelector(".tasta_taste-1")
@@ -36,13 +54,12 @@ document.addEventListener("DOMContentLoaded", () => {
     let timer;
     let timerGestartet = false
 
-
     // Textauswahl
     const menueTextAuswahl = document.querySelector(".menue_textAuswahl")
     const texte = new Map([
         ["Text1", "Eines Tages, als roten Blätter von den Bäumen flatterten, brach Nokome allein mit seinem Kanu auf. Er überquert das Stück Meer, das Uktamkoo vom Festland trennt, und fuhr in die Mündung des Flusses ein. Er folgte dem Fluss bis zu seiner Quelle, einem See im Süd-Gebirge. Nachdem er auch diesen See überquert hatte, nahm er sein Kanu auf den Rücken und trug es zu einem zweiten See, den er auch überquerte, und so gelangte er von See zu See bis zu einem Bach, der direkt ins Minas-Becken hinabführt. Fern, über der Bucht, sah er nun Blomidon, purpurrot in der Ferne. Es war noch eine lange und beschwerliche Reise über die Bucht, bis endlich sein Kanu knirschend auf den Strand von Blomidon auffuhr und er zu den roten Sandsteinklippen hinaufblickte. Er spürte plötzlich, dass Gluskap hier irgendwo in der Nähe sein musste. Er würde auf die Berge steigen, und dann konnte er die Gegend ringsum überschauen. So würde er entdecken, wo Gluskaps Hütte stand. Nokome begann zu klettern. Der rote Stein war nass, und immer wieder rutschte er ab. Zwergkiefern zerkratzten ihm das Gesicht, und er schürfte sich die Hände auf, aber er mühte sich weiter. Höher und höher stieg er, bis er die Spitze erreicht hatte. Müde und schmutzig und keuchend stürzte er ins Gras."],
         ["Text2", "byt byt byt byt byt, Berater, Baum, Blume, Beruf, Blei, Boden, Beileid, Bulle, Buero, bestaunen, Betrag, beladen, Boote, Bote, Brot, Betreiber, betreiben, Betrag, Beleidigung, Byzanz, Bypass, Bye-bye, Baby, Yeti, Yoga, Yes, Ypsilon, Ytong, Tiefe, Tanne, Totem, Tasse, Teer, Taste, Teller, Tante, Torte, Trottel, Torf, Tinte, Tor, Tollwut, Tierfell, qhx  qhx qhx qhx qhx qhx cjv cjv cjv cjv cjv Creme, Centimeter, Camel, Lack, Rock, Bock, Zicke, Ecke, Junge, Jod, Jagt, Jade, Joeger, Jedermanns, Jemand, Januar, Jause, Ja, Jens, Jacke, Jeder, Jesus, Verein, Vers, Vase, Vogel, Verbund, Verb, Vater, Vorstand, Voll, Versand, Verband, verlobt, verliebt, vorsetzen, verspaetet, verpassen,"],
-        ["Text3", "sein rad flog zum pkw byt cjv qhx äöüß"]])
+        ["Text3", "!\"§$%&/()=?\\+*#'-_.,:;|€@ sein rad flog zum pkw byt cjv qhx äöüß"]])
     let text = "sein rad flog zum pkw byt cjv qhx äöüß"
     let textCounter = 0
 
@@ -67,6 +84,24 @@ document.addEventListener("DOMContentLoaded", () => {
     const spanFehlerProzent = document.querySelector(".span_fehlerProzent")
     const spanFehlergesamt = document.querySelector(".span_fehlergesamt")
 
+    const platz1Buchstabe = document.querySelector(".platz1_buchstabe")
+    const platz2Buchstabe = document.querySelector(".platz2_buchstabe")
+    const platz3Buchstabe = document.querySelector(".platz3_buchstabe")
+    const platz4Buchstabe = document.querySelector(".platz4_buchstabe")
+    const platz5Buchstabe = document.querySelector(".platz5_buchstabe")
+
+    const platz1Fehler = document.querySelector(".platz1_fehler")
+    const platz2Fehler = document.querySelector(".platz2_fehler")
+    const platz3Fehler = document.querySelector(".platz3_fehler")
+    const platz4Fehler = document.querySelector(".platz4_fehler")
+    const platz5Fehler = document.querySelector(".platz5_fehler")
+
+    const platz1Von = document.querySelector(".platz1_von")
+    const platz2Von = document.querySelector(".platz2_von")
+    const platz3Von = document.querySelector(".platz3_von")
+    const platz4Von = document.querySelector(".platz4_von")
+    const platz5Von = document.querySelector(".platz5_von")
+
     // Start Anweisung
     let startInterval;
     const startAnweisung = document.querySelector(".start")
@@ -76,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Hier Hauptprogramm
     let gestartet = false
     window.addEventListener("keypress", (ev) => {
-        
+
         if (textCounter < text.length) {
             anschlaege++
         }
@@ -96,15 +131,20 @@ document.addEventListener("DOMContentLoaded", () => {
             tastenMarkiren(text[textCounter])
             fehlerZählen(buchstabeZurKontrolle, ev)
             textCounter++
-
-            
         }
-
     })
 
+    // Start Anweisung
+    function flackernStart() {
+        startInterval = setInterval(() => {
+            startParagraph.classList.toggle("start_flackern")
+            taste1.classList.toggle("shift")
+        }, 1000)
+    }
+
     // Fehler Zählung
-    function fehlerZählen(buchstabeZurKontrolle, ev){
-        
+    function fehlerZählen(buchstabeZurKontrolle, ev) {
+
         // zählt alle Buchstaben
         for (const buchstabe in anzahlFehlerProBuchstabe) {
             if (anzahlFehlerProBuchstabe[buchstabe][0] === buchstabeZurKontrolle) {
@@ -124,62 +164,63 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // fehler Auswertung
     function fehlerAuswertung() {
+
         let platz1 = ["", 0, 0]
         let platz2 = ["", 0, 0]
         let platz3 = ["", 0, 0]
         let platz4 = ["", 0, 0]
         let platz5 = ["", 0, 0]
+
         for (const buchstabe in anzahlFehlerProBuchstabe) {
             let akBuchstabe = anzahlFehlerProBuchstabe[buchstabe][1]
             if (akBuchstabe >= platz1[1]) {
-    
+
                 platz1 = anzahlFehlerProBuchstabe[buchstabe]
-            } 
-        }
-    
-        for (const buchstabe in anzahlFehlerProBuchstabe) {
-            let akBuchstabe = anzahlFehlerProBuchstabe[buchstabe][1]
-            if (akBuchstabe >= platz2[1] && akBuchstabe <= platz1[1] && 
-                anzahlFehlerProBuchstabe[buchstabe][0] !== platz1[0]) {
-    
-                    platz2 = anzahlFehlerProBuchstabe[buchstabe]
             }
         }
-    
+
         for (const buchstabe in anzahlFehlerProBuchstabe) {
             let akBuchstabe = anzahlFehlerProBuchstabe[buchstabe][1]
-            if (akBuchstabe >= platz3[1] && akBuchstabe <= platz2[1] && 
-                anzahlFehlerProBuchstabe[buchstabe][0] !== platz2[0] && 
+            if (akBuchstabe >= platz2[1] && akBuchstabe <= platz1[1] &&
                 anzahlFehlerProBuchstabe[buchstabe][0] !== platz1[0]) {
-    
+
+                platz2 = anzahlFehlerProBuchstabe[buchstabe]
+            }
+        }
+
+        for (const buchstabe in anzahlFehlerProBuchstabe) {
+            let akBuchstabe = anzahlFehlerProBuchstabe[buchstabe][1]
+            if (akBuchstabe >= platz3[1] && akBuchstabe <= platz2[1] &&
+                anzahlFehlerProBuchstabe[buchstabe][0] !== platz2[0] &&
+                anzahlFehlerProBuchstabe[buchstabe][0] !== platz1[0]) {
+
                 platz3 = anzahlFehlerProBuchstabe[buchstabe]
             }
         }
-    
+
         for (const buchstabe in anzahlFehlerProBuchstabe) {
             let akBuchstabe = anzahlFehlerProBuchstabe[buchstabe][1]
-            if (akBuchstabe >= platz4[1] && akBuchstabe <= platz3[1] && 
-                anzahlFehlerProBuchstabe[buchstabe][0] !== platz3[0] && 
-                anzahlFehlerProBuchstabe[buchstabe][0] !== platz2[0] &&
-                anzahlFehlerProBuchstabe[buchstabe][0] !== platz1[0] ) {
-    
-                platz4 = anzahlFehlerProBuchstabe[buchstabe]
-    
-            }
-        }
-    
-        for (const buchstabe in anzahlFehlerProBuchstabe) {
-            let akBuchstabe = anzahlFehlerProBuchstabe[buchstabe][1]
-            if (akBuchstabe >= platz5[1] && akBuchstabe <= platz4[1] && 
-                anzahlFehlerProBuchstabe[buchstabe][0] !== platz4[0] && 
+            if (akBuchstabe >= platz4[1] && akBuchstabe <= platz3[1] &&
                 anzahlFehlerProBuchstabe[buchstabe][0] !== platz3[0] &&
                 anzahlFehlerProBuchstabe[buchstabe][0] !== platz2[0] &&
                 anzahlFehlerProBuchstabe[buchstabe][0] !== platz1[0]) {
-    
+
+                platz4 = anzahlFehlerProBuchstabe[buchstabe]
+
+            }
+        }
+
+        for (const buchstabe in anzahlFehlerProBuchstabe) {
+            let akBuchstabe = anzahlFehlerProBuchstabe[buchstabe][1]
+            if (akBuchstabe >= platz5[1] && akBuchstabe <= platz4[1] &&
+                anzahlFehlerProBuchstabe[buchstabe][0] !== platz4[0] &&
+                anzahlFehlerProBuchstabe[buchstabe][0] !== platz3[0] &&
+                anzahlFehlerProBuchstabe[buchstabe][0] !== platz2[0] &&
+                anzahlFehlerProBuchstabe[buchstabe][0] !== platz1[0]) {
+
                 platz5 = anzahlFehlerProBuchstabe[buchstabe]
             }
         }
-        
         return [platz1, platz2, platz3, platz4, platz5]
     }
 
@@ -202,26 +243,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return prozentFehler
         }
     }
-
-    const platz1Buchstabe = document.querySelector(".platz1_buchstabe")
-    const platz2Buchstabe = document.querySelector(".platz2_buchstabe")
-    const platz3Buchstabe = document.querySelector(".platz3_buchstabe")
-    const platz4Buchstabe = document.querySelector(".platz4_buchstabe")
-    const platz5Buchstabe = document.querySelector(".platz5_buchstabe")
-
-    const platz1Fehler = document.querySelector(".platz1_fehler")
-    const platz2Fehler = document.querySelector(".platz2_fehler")
-    const platz3Fehler = document.querySelector(".platz3_fehler")
-    const platz4Fehler = document.querySelector(".platz4_fehler")
-    const platz5Fehler = document.querySelector(".platz5_fehler")
-
-    const platz1Von = document.querySelector(".platz1_von")
-    const platz2Von = document.querySelector(".platz2_von")
-    const platz3Von = document.querySelector(".platz3_von")
-    const platz4Von = document.querySelector(".platz4_von")
-    const platz5Von = document.querySelector(".platz5_von")
-
-
 
     function autoAuswertung() {
         const listeTopFünfFehler = fehlerAuswertung()
@@ -248,17 +269,14 @@ document.addEventListener("DOMContentLoaded", () => {
         platz4Von.innerHTML = listeTopFünfFehler[3][2]
         platz5Von.innerHTML = listeTopFünfFehler[4][2]
 
-
-
         spanFehlergesamt.innerText = fehler
         spanFehlerProzent.innerText = fehlerInProzent(fehler, textCounter)
     }
 
-    function objektAufNullSetzen(){
-        for(const element in anzahlFehlerProBuchstabe){
+    function objektAufNullSetzen() {
+        for (const element in anzahlFehlerProBuchstabe) {
             anzahlFehlerProBuchstabe[element][1] = 0
             anzahlFehlerProBuchstabe[element][2] = 0
-    
         }
     }
 
@@ -297,7 +315,6 @@ document.addEventListener("DOMContentLoaded", () => {
     menueTextAuswahl.addEventListener("click", () => {
         if (!ersteWahl) {
             let t = menueTextAuswahl.value
-            //textLauf.innerHTML = texte.get(t)
             text = texte.get(t)
             laufenderText()
         } else ersteWahl = false
@@ -325,16 +342,6 @@ document.addEventListener("DOMContentLoaded", () => {
     buttonStartTimer.addEventListener("click", () => {
         autoAuswertung()
         startAnweisung.classList.add("auswertung_none")
-
-        // if (!timerGestartet) {
-        //     timerStart()
-        //     timerGestartet = true
-        //     gestartet = true
-        //     key()
-        //     tastenMarkiren(text[textCounter])
-        // } else {
-        //     autoAuswertung()
-        // }
     })
 
 
@@ -349,8 +356,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Textlauf
     function key() {
-        // let aktuellerBuchstabeTextStart = document.querySelector(".text_lauf-m").innerHTML
-        // let aktuellerBuchstabeText = document.querySelector(".text_lauf-a").innerHTML[0]
 
         laufenderText()
 
@@ -358,14 +363,6 @@ document.addEventListener("DOMContentLoaded", () => {
             autoAuswertung()
             return
         }
-
-        // if (textCounter == 0) {
-        //     tastenMarkiren(aktuellerBuchstabeTextStart)
-        // } else {
-        //     tastenMarkiren(aktuellerBuchstabeText)
-        //    // textCounter++
-
-        // }
     }
 
     function laufenderText() {
@@ -386,27 +383,19 @@ document.addEventListener("DOMContentLoaded", () => {
         taste3.classList.remove("green")
         taste4.classList.remove("green")
         taste5.classList.remove("green")
-        // taste1.style.backgroundColor = colorWhite
-        // taste2.style.backgroundColor = colorWhite
-        // taste3.style.backgroundColor = colorWhite
-        // taste4.style.backgroundColor = colorWhite
-        // taste5.style.backgroundColor = colorWhite
-
-        //tasteBlau.style.backgroundColor = colorBlue
-        // tasteGelb.style.backgroundColor = colorYellow
-        // tasteRot.style.backgroundColor = colorRed
-        //taste9.style.backgroundColor = colorDarkblue
-        //taste10.style.backgroundColor = colorDarkblue
+        tasteGelb.classList.remove("green")
+        tasteRot.classList.remove("green")
         tasteGelb.classList.remove("shift")
         tasteRot.classList.remove("shift")
         setTimeout(clearInterval(shiftAnzeige))
         setTimeout(clearInterval(zahlAnzeige))
+        setTimeout(clearInterval(sonderZeichenAnzeige))
     }
 
 
     function tastenMarkiren(buchstabe) {
-        clearTastatur()
 
+        clearTastatur()
 
         if (buchstabe === " ") {
             taste1.classList.add("green")
@@ -836,7 +825,219 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Sonderzeichen
 
+        if (buchstabe === "'") {
+            sonderZeichenMarkirung()
+            taste1.classList.add("green")
+            taste4.classList.add("green")
+        }
 
+        if (buchstabe === "-") {
+            sonderZeichenMarkirung()
+            taste1.classList.add("green")
+            taste3.classList.add("green")
+            taste4.classList.add("green")
+        }
+
+        if (buchstabe === "]") {
+            sonderZeichenMarkirung()
+            taste2.classList.add("green")
+            taste4.classList.add("green")
+        }
+
+        if (buchstabe === "^") {
+            sonderZeichenMarkirung()
+            taste1.classList.add("green")
+            taste5.classList.add("green")
+        }
+
+        if (buchstabe === "[") {
+            sonderZeichenMarkirung()
+            taste3.classList.add("green")
+        }
+
+        if (buchstabe === "?") {
+            sonderZeichenMarkirung()
+            taste1.classList.add("green")
+            taste2.classList.add("green")
+        }
+
+        if (buchstabe === "=") {
+            sonderZeichenMarkirung()
+            taste4.classList.add("green")
+            taste5.classList.add("green")
+        }
+
+        if (buchstabe === "#") {
+            sonderZeichenMarkirung()
+            taste1.classList.add("green")
+            taste2.classList.add("green")
+            taste5.classList.add("green")
+        }
+
+        if (buchstabe === "!") {
+            sonderZeichenMarkirung()
+            taste4.classList.add("green")
+        }
+
+        if (buchstabe === "§") {
+            sonderZeichenMarkirung()
+            taste2.classList.add("green")
+            taste5.classList.add("green")
+
+        }
+
+        if (buchstabe === "@") {
+            sonderZeichenMarkirung()
+            taste2.classList.add("green")
+            taste3.classList.add("green")
+            taste4.classList.add("green")
+            taste5.classList.add("green")
+        }
+
+        if (buchstabe === "_") {
+            sonderZeichenMarkirung()
+            taste2.classList.add("green")
+            taste3.classList.add("green")
+        }
+
+        if (buchstabe === ">") {
+            sonderZeichenMarkirung()
+            taste3.classList.add("green")
+            taste4.classList.add("green")
+            taste5.classList.add("green")
+        }
+
+        if (buchstabe === ")") {
+            sonderZeichenMarkirung()
+            taste5.classList.add("green")
+        }
+
+        if (buchstabe === "|") {
+            sonderZeichenMarkirung()
+            taste3.classList.add("green")
+            taste4.classList.add("green")
+        }
+
+        if (buchstabe == "+") {
+            sonderZeichenMarkirung()
+            taste1.classList.add("green")
+            taste2.classList.add("green")
+            taste3.classList.add("green")
+            taste4.classList.add("green")
+        }
+
+        if(buchstabe === "/"){
+            sonderZeichenMarkirung()
+            taste1.classList.add("green")
+            taste2.classList.add("green")
+            taste4.classList.add("green")
+        }
+
+        if (buchstabe === "$") {
+            sonderZeichenMarkirung()
+            taste1.classList.add("green")
+            taste3.classList.add("green")
+        }
+
+        if (buchstabe === "*") {
+            sonderZeichenMarkirung()
+            taste2.classList.add("green")
+        }
+
+        if (buchstabe === "%") {
+            sonderZeichenMarkirung()
+            taste1.classList.add("green")
+            taste3.classList.add("green")
+            taste4.classList.add("green")
+            taste5.classList.add("green")
+        }
+
+        if (buchstabe === "&") {
+            sonderZeichenMarkirung()
+            taste2.classList.add("green")
+            taste3.classList.add("green")
+            taste4.classList.add("green")
+        }
+
+        if (buchstabe === "(") {
+            sonderZeichenMarkirung()
+            taste2.classList.add("green")
+            taste4.classList.add("green")
+            taste5.classList.add("green")
+        }
+
+        if (buchstabe === "<") {
+            sonderZeichenMarkirung()
+            taste1.classList.add("green")
+            taste2.classList.add("green")
+            taste3.classList.add("green")
+            taste4.classList.add("green")
+            taste5.classList.add("green")
+        }
+
+        if (buchstabe === "\\") {
+            sonderZeichenMarkirung()
+            taste1.classList.add("green")
+            taste2.classList.add("green")
+            taste4.classList.add("green")
+            taste5.classList.add("green")
+        }
+
+        if (buchstabe === "`") {
+            sonderZeichenMarkirung()
+            taste1.classList.add("green")
+            taste4.classList.add("green")
+            taste5.classList.add("green")
+        }
+
+        if (buchstabe === "\"") {
+            sonderZeichenMarkirung()
+            taste1.classList.add("green")
+            taste2.classList.add("green")
+            taste3.classList.add("green")
+        }
+
+        if (buchstabe === "€") {
+            sonderZeichenMarkirung()
+            taste1.classList.add("green")
+        }
+
+        if (buchstabe === ".") {
+            taste3.classList.add("green")
+            tasteRot.classList.add("green")
+        }
+
+        if (buchstabe === ",") {
+            taste2.classList.add("green")
+            tasteGelb.classList.add("green")
+        }
+
+        if (buchstabe === ":") {
+            taste2.classList.add("green")
+            taste3.classList.add("green")
+            tasteGelb.classList.add("green")
+            tasteRot.classList.add("green")
+        }
+
+        if (buchstabe === ";") {
+            taste1.classList.add("green")
+            taste2.classList.add("green")
+            taste3.classList.add("green")
+            tasteGelb.classList.add("green")
+            tasteRot.classList.add("green")
+        }
+
+        if (buchstabe === "}") {
+            zahlMarkirung()
+            taste2.classList.add("green")
+            taste4.classList.add("green")
+        }
+
+        if (buchstabe === "{") {
+            zahlMarkirung()
+            taste1.classList.add("green")
+            taste5.classList.add("green")
+        }
     }
 
     let shiftAnzeige;
@@ -854,5 +1055,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 500)
     }
 
-
+    let sonderZeichenAnzeige;
+    function sonderZeichenMarkirung() {
+        sonderZeichenAnzeige = setInterval(() => {
+            tasteGelb.classList.toggle("shift")
+        }, 500)
+    }
 })
