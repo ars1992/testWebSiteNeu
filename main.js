@@ -2,10 +2,10 @@
 const fehlerVerarbeitung = {
 
     _list: [
-        ["a", 1, 0], ["b", 0, 0], ["c", 0, 0],
-        ["d", 2, 0], ["e", 0, 0], ["f", 0, 0],
-        ["g", 3, 0], ["h", 0, 0], ["i", 0, 0],
-        ["j", 4, 19], ["k", 0, 0], ["l", 0, 0],
+        ["a", 0, 0], ["b", 0, 0], ["c", 0, 0],
+        ["d", 0, 0], ["e", 0, 0], ["f", 0, 0],
+        ["g", 0, 0], ["h", 0, 0], ["i", 0, 0],
+        ["j", 0, 0], ["k", 0, 0], ["l", 0, 0],
         ["m", 0, 0], ["n", 0, 0], ["o", 0, 0],
         ["p", 0, 0], ["q", 0, 0], ["r", 0, 0],
         ["s", 0, 0], ["t", 0, 0], ["u", 0, 0],
@@ -110,58 +110,6 @@ const fehlerVerarbeitung = {
     },
 }
 
-const elemente = {
-    textAusgabe: {
-        textLaufF: document.querySelector(".text_lauf-f"),
-        textLaufM: document.querySelector(".text_lauf-m"),
-        textLaufA: document.querySelector(".text_lauf-A"),
-    },
-    menueEingabe: {
-        menueTextAuswahl: document.querySelector(".menue_textAuswahl"),
-        menueZeitAuswahl: document.querySelector(".menue_zeitAuswahl"),
-        menueStoppButton: document.querySelector(".menue_startButton"),
-    },
-    menueAusgabe: {
-        menueZeitAusgabe: document.querySelector(".menue_timer"),
-        menueAnschlagAusgabe: document.querySelector(".menue"),
-    },
-    tasta: {
-        taste1: document.querySelector(".tasta_taste-1"),
-        taste2: document.querySelector(".tasta_taste-2"),
-        taste3: document.querySelector(".tasta_taste-3"),
-        taste4: document.querySelector(".tasta_taste-4"),
-        taste5: document.querySelector(".tasta_taste-5"),
-        tasteGelb: document.querySelector(".tasta_taste-gelb"),
-        tasteRot: document.querySelector(".tasta_taste-rot"),
-    },
-    startAusgabe: {
-        startDiv: document.querySelector(".start"),
-        startPara: document.querySelector(".start_paragraph")
-    },
-    auswertungAusgabe: {
-        ausgabeFehlerGesamt: document.querySelector(".span_fehlergesamt"),
-        ausgabeFehlerProzent: document.querySelector(".span_fehlerProzent"),
-        ausgabeAnschläge: document.querySelector(".span_anschlaege"),
-        ausgabePlatz_1_Buchsabe: document.querySelector(".platz1_buchstabe"),
-        ausgabePlatz_2_Buchsabe: document.querySelector(".platz2_buchstabe"),
-        ausgabePlatz_3_Buchsabe: document.querySelector(".platz3_buchstabe"),
-        ausgabePlatz_4_Buchsabe: document.querySelector(".platz4_buchstabe"),
-        ausgabePlatz_5_Buchsabe: document.querySelector(".platz5_buchstabe"),
-
-        ausgabePlatz_1_Fehler: document.querySelector(".platz1_fehler"),
-        ausgabePlatz_2_Fehler: document.querySelector(".platz2_fehler"),
-        ausgabePlatz_3_Fehler: document.querySelector(".platz3_fehler"),
-        ausgabePlatz_4_Fehler: document.querySelector(".platz4_fehler"),
-        ausgabePlatz_5_Fehler: document.querySelector(".platz5_fehler"),
-
-        ausgabePlatz_1_Von: document.querySelector(".platz1_von"),
-        ausgabePlatz_2_Von: document.querySelector(".platz2_von"),
-        ausgabePlatz_3_Von: document.querySelector(".platz3_von"),
-        ausgabePlatz_4_Von: document.querySelector(".platz4_von"),
-        ausgabePlatz_4_Von: document.querySelector(".platz5_von"),
-    }
-}
-
 const StartAnzeige = {
     _startAusgabe: {
         startDiv: document.querySelector(".start"),
@@ -196,14 +144,13 @@ const Menue = {
     _aktTime: 0,
     _anschlaegeProMin: 0,
 
-    ausgewählterText: "Tasta",
+    ausgewählterText: "Schreibtrainer V1.0",
 
     _timerStop: function () {
         setInterval(() => {
             if (this._aktTime >= this._userTime) {
                 setTimeout(() => { clearInterval(this._time), 50 })
-                //autoAuswertung()
-                alert()
+                Auswertung.autoAuswertung()
             }
         })
     },
@@ -234,13 +181,13 @@ const Menue = {
     },
 
     // noch json hinzufügen als text quelle
-    ersteWahlText: true,
     setText: function () {
+        let ersteWahlText = true
         this.menueTextAuswahl.addEventListener("click", () => {
-            if (!this.ersteWahlText) {
+            if (!ersteWahlText) {
                 this.ausgewählterText = this.menueTextAuswahl.value
             } else {
-                this.ersteWahlText = false
+                ersteWahlText = false
             }
             TextLauf.laufenderText(Tastatur.textCounter)
         })
@@ -261,12 +208,16 @@ const Menue = {
         return this.ausgewählterText
     },
 
-    getAnschlagProMin: function() {
+    getAnschlagProMin: function () {
         return this._anschlaegeProMin
+    },
+
+    setAnzeigeZeitAnschlagAufNull: function () {
+        this.menueAnschlagAusgabe.innerText = 0
+        this.menueZeitAusgabe.innerText = 0
+        this._aktTime = 0
+        this._anschlaegeProMin = 0
     }
-
-
-
 }
 
 const TextLauf = {
@@ -500,9 +451,8 @@ const Tastatur = {
     },
 
     stopProgrammAbfrage: () => {
-        if (Tastatur.textCounter >= Menue.ausgewählterText.length) {
-            alert()
-            //autoAuswertung()
+        if (Tastatur.textCounter > Menue.ausgewählterText.length) {
+            Auswertung.autoAuswertung()
         }
     },
 
@@ -510,9 +460,11 @@ const Tastatur = {
         if (Tastatur.textCounter <= Menue.ausgewählterText.length) {
             Tastatur.textCounter++
         }
+    },
+
+    setTextCounter: (n) => {
+        Tastatur.textCounter = n
     }
-
-
 }
 
 const Auswertung = {
@@ -538,21 +490,66 @@ const Auswertung = {
     ausgabePlatz_2_Von: document.querySelector(".platz2_von"),
     ausgabePlatz_3_Von: document.querySelector(".platz3_von"),
     ausgabePlatz_4_Von: document.querySelector(".platz4_von"),
-    ausgabePlatz_4_Von: document.querySelector(".platz5_von"),
+    ausgabePlatz_5_Von: document.querySelector(".platz5_von"),
 
+    inAuswertung: false,
 
     autoAuswertung: () => {
+        Auswertung.inAuswertung = true
+        let listeTopFünfFehler = fehlerVerarbeitung.getfehlerAuswertung()
         setTimeout(clearInterval(Menue._time))
         StartAnzeige.ausblenden()
         Auswertung.auswertungAnzeigen.classList.remove("auswertung_none")
         Auswertung.auswertungAnzeigen.classList.add("auswertung_notNone")
-        
-        Auswertung.ausgabeAnschläge.innerText = parseInt(Menue.getAnschlagProMin())
 
+        Auswertung.ausgabeAnschläge.innerText = parseInt(Menue.getAnschlagProMin())
+        Auswertung.ausgabeFehlerGesamt.innerText = fehlerVerarbeitung.getFehlerGesamt()
+        Auswertung.ausgabeFehlerProzent.innerText = fehlerVerarbeitung.getFehlerInProzent()
+
+        Auswertung.ausgabePlatz_1_Buchsabe.innerText = listeTopFünfFehler[0][0]
+        Auswertung.ausgabePlatz_2_Buchsabe.innerText = listeTopFünfFehler[1][0]
+        Auswertung.ausgabePlatz_3_Buchsabe.innerText = listeTopFünfFehler[2][0]
+        Auswertung.ausgabePlatz_4_Buchsabe.innerText = listeTopFünfFehler[3][0]
+        Auswertung.ausgabePlatz_5_Buchsabe.innerText = listeTopFünfFehler[4][0]
+
+        Auswertung.ausgabePlatz_1_Fehler.innerText = listeTopFünfFehler[0][1]
+        Auswertung.ausgabePlatz_2_Fehler.innerText = listeTopFünfFehler[1][1]
+        Auswertung.ausgabePlatz_3_Fehler.innerText = listeTopFünfFehler[2][1]
+        Auswertung.ausgabePlatz_4_Fehler.innerText = listeTopFünfFehler[3][1]
+        Auswertung.ausgabePlatz_5_Fehler.innerText = listeTopFünfFehler[4][1]
+
+        Auswertung.ausgabePlatz_1_Von.innerText = listeTopFünfFehler[0][2]
+        Auswertung.ausgabePlatz_2_Von.innerText = listeTopFünfFehler[1][2]
+        Auswertung.ausgabePlatz_3_Von.innerText = listeTopFünfFehler[2][2]
+        Auswertung.ausgabePlatz_4_Von.innerText = listeTopFünfFehler[3][2]
+        Auswertung.ausgabePlatz_5_Von.innerText = listeTopFünfFehler[4][2]
+    },
+
+    auswertungReset: () => {
+        Auswertung.resetButton.addEventListener("click", () => {
+            Auswertung.auswertungAnzeigen.classList.remove("auswertung_notNone")
+            Auswertung.auswertungAnzeigen.classList.add("auswertung_none")
+
+            StartAnzeige._startAusgabe.startDiv.classList.remove("auswertung_none")
+            StartAnzeige.flackernAnzeige()
+            Tastatur.setTextCounter(0)
+            Menue.setAnzeigeZeitAnschlagAufNull()
+            Menue.ausgewählterText = "nnn"
+
+            Tastatur.clearTastatur()
+            TextLauf.laufenderText(Tastatur.textCounter)
+
+            fehlerVerarbeitung.setFehlerZurückSetzen()
+
+            ProgrammStart.gestartet = false
+            Auswertung.inAuswertung = false
+        })
     }
 }
 
 const ProgrammStart = {
+
+    gestartet: false,
 
     immer: () => {
         StartAnzeige.flackernAnzeige()
@@ -560,6 +557,7 @@ const ProgrammStart = {
         Menue.set_UserTime()
         Menue.timerStopButton()
         Menue.setText()
+        Auswertung.auswertungReset()
     },
 
     ersteInteraktion: () => {
@@ -568,41 +566,44 @@ const ProgrammStart = {
         StartAnzeige.ausblenden()
     },
 
-    interAktion: () => {
+    interAktion: (taste) => {
         Tastatur.clearTastatur()
         Tastatur.tastaturAnzeige(Menue.ausgewählterText[Tastatur.textCounter])
-        Tastatur.stopProgrammAbfrage()
         TextLauf.laufenderText(Tastatur.textCounter)
         Menue.anschlagMessung()
+        fehlerVerarbeitung.setZeichenZähler(Menue.getAusgewählterText()[Tastatur.textCounter])
+        console.log(String.fromCharCode(taste.keyCode), Menue.ausgewählterText[Tastatur.textCounter], "test")
+        fehlerVerarbeitung.setFehlerZähler(
+            String.fromCharCode(taste.keyCode),
+            Menue.getAusgewählterText()[Tastatur.textCounter - 1]
+        )
+        Tastatur.zählerTextCounter()
+        Tastatur.stopProgrammAbfrage()
     },
 
     tastenAbfrage: () => {
-        let gestartet = false
-
         window.addEventListener("keypress", (taste) => {
             console.log(taste)
-            if (String.fromCharCode(taste.keyCode) === " " && !gestartet) {
+            if(Auswertung.inAuswertung){
+                return
+            }
+
+            if (String.fromCharCode(taste.keyCode) === " " && !ProgrammStart.gestartet) {
                 ProgrammStart.ersteInteraktion()
-                gestartet = true
+                ProgrammStart.gestartet = true
             }
 
-            if (gestartet) {
-                ProgrammStart.interAktion()
-                Tastatur.zählerTextCounter()
-            }
+            if (ProgrammStart.gestartet) {
+                ProgrammStart.interAktion(taste)
 
+            }
         })
     },
 
-
-
-
+    START: () => {
+        ProgrammStart.immer()
+        ProgrammStart.tastenAbfrage()
+    }
 }
-//StartAnzeige.ausblenden()
 
-
-Tastatur.einzelneTasten.tasteLeer()
-Tastatur.einzelneTasten.tasteK_a()
-Tastatur.clearTastatur()
-ProgrammStart.immer()
-ProgrammStart.tastenAbfrage()
+ProgrammStart.START()
