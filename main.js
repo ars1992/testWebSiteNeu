@@ -172,12 +172,12 @@ const StartAnzeige = {
     flackernAnzeige: function () {
         this.startInterval = setInterval(() => {
             this._startAusgabe.startPara.classList.toggle("start_flackern")
-            Tastatur.tasta.taste1.classList.toggle("shift")
+            Tastatur.taste1.classList.toggle("shift")
         }, 1000)
     },
 
     ausblenden: function () {
-        Tastatur.tasta.taste1.classList.remove("shift")
+        Tastatur.taste1.classList.remove("shift")
         setTimeout(clearInterval(this.startInterval))
         this._startAusgabe.startDiv.classList.add("auswertung_none")
     },
@@ -188,20 +188,22 @@ const Menue = {
     menueTextAuswahl: document.querySelector(".menue_textAuswahl"),
     menueZeitAuswahl: document.querySelector(".menue_zeitAuswahl"),
     menueStoppButton: document.querySelector(".menue_startButton"),
-    menueAnschlagAusgabe: document.querySelector(".menue"),
+    menueAnschlagAusgabe: document.querySelector(".menue_anschlaegeMin"),
     menueZeitAusgabe: document.querySelector(".menue_timer"),
 
-    userTime: 555555555555,
+    _userTime: 55555,
     _time: null,
     _aktTime: 0,
+    _anschlaegeProMin: 0,
 
     ausgewählterText: "Tasta",
 
     _timerStop: function () {
         setInterval(() => {
-            if (this._aktTime >= this.userTime) {
+            if (this._aktTime >= this._userTime) {
                 setTimeout(() => { clearInterval(this._time), 50 })
                 //autoAuswertung()
+                alert()
             }
         })
     },
@@ -216,16 +218,15 @@ const Menue = {
 
     timerStopButton: function () {
         this.menueStoppButton.addEventListener("click", () => {
-            // autoAuswertung()
-            alert()
+            Auswertung.autoAuswertung()
         })
     },
 
     ersteWahlTime: true,
-    setUserTime: function () {
+    set_UserTime: function () {
         this.menueZeitAuswahl.addEventListener("click", () => {
             if (!this.ersteWahlTime) {
-                this.userTime = parseInt(this.menueZeitAuswahl.value)
+                this._userTime = parseInt(this.menueZeitAuswahl.value)
             } else {
                 this.ersteWahlTime = false
             }
@@ -234,9 +235,9 @@ const Menue = {
 
     // noch json hinzufügen als text quelle
     ersteWahlText: true,
-    setText: function() {
+    setText: function () {
         this.menueTextAuswahl.addEventListener("click", () => {
-            if (! this.ersteWahlText){
+            if (!this.ersteWahlText) {
                 this.ausgewählterText = this.menueTextAuswahl.value
             } else {
                 this.ersteWahlText = false
@@ -245,12 +246,23 @@ const Menue = {
         })
     },
 
-    anschlagMessung: function() {
-        //
+    anschlagMessung: function () {
+        setInterval(() => {
+            if (Tastatur.textCounter / Menue._aktTime === Infinity) {
+                Menue.menueAnschlagAusgabe.innerText = 0
+            } else if (Menue._aktTime < this._userTime && Menue._aktTime !== 0) {
+                Menue._anschlaegeProMin = Tastatur.textCounter / Menue._aktTime * 60
+                Menue.menueAnschlagAusgabe.innerText = parseInt(Menue._anschlaegeProMin)
+            }
+        }, 100)
     },
 
-    getAusgewählterText: function() {
+    getAusgewählterText: function () {
         return this.ausgewählterText
+    },
+
+    getAnschlagProMin: function() {
+        return this._anschlaegeProMin
     }
 
 
@@ -258,68 +270,339 @@ const Menue = {
 }
 
 const TextLauf = {
-    
-        textLaufF: document.querySelector(".text_lauf-f"),
-        textLaufM: document.querySelector(".text_lauf-m"),
-        textLaufA: document.querySelector(".text_lauf-a"),
 
-        laufenderText: function(counter) {
-            if(counter < 15){
-                this.textLaufF.innerText = Menue.getAusgewählterText().slice(0, counter)
-            } else {
-                this.textLaufF.innerText = Menue.getAusgewählterText().slice(counter -15, counter)
-            }
+    textLaufF: document.querySelector(".text_lauf-f"),
+    textLaufM: document.querySelector(".text_lauf-m"),
+    textLaufA: document.querySelector(".text_lauf-a"),
 
-            this.textLaufM.innerHTML = "<u>" + Menue.getAusgewählterText()[counter] + "<u>"
-            this.textLaufA.innerText = Menue.getAusgewählterText().slice(counter + 1, counter + 15)
+    laufenderText: function (counter) {
+        console.log("laufenderText", Tastatur.textCounter)
+        if (counter < 15) {
+            this.textLaufF.innerText = Menue.getAusgewählterText().slice(0, counter)
+        } else {
+            this.textLaufF.innerText = Menue.getAusgewählterText().slice(counter - 15, counter)
         }
-}
 
-const Tastatur = {
-    tasta: {
-        taste1: document.querySelector(".tasta_taste-1"),
-        taste2: document.querySelector(".tasta_taste-2"),
-        taste3: document.querySelector(".tasta_taste-3"),
-        taste4: document.querySelector(".tasta_taste-4"),
-        taste5: document.querySelector(".tasta_taste-5"),
-        tasteGelb: document.querySelector(".tasta_taste-gelb"),
-        tasteRot: document.querySelector(".tasta_taste-rot"),
-    },
-    textCounter: 2,
-}
-
-const Auswertung = {
-    auswertungAusgabe: {
-        resetButton: document.querySelector(".auswertung_resetButton"),
-        ausgabeFehlerGesamt: document.querySelector(".span_fehlergesamt"),
-        ausgabeFehlerProzent: document.querySelector(".span_fehlerProzent"),
-        ausgabeAnschläge: document.querySelector(".span_anschlaege"),
-        ausgabePlatz_1_Buchsabe: document.querySelector(".platz1_buchstabe"),
-        ausgabePlatz_2_Buchsabe: document.querySelector(".platz2_buchstabe"),
-        ausgabePlatz_3_Buchsabe: document.querySelector(".platz3_buchstabe"),
-        ausgabePlatz_4_Buchsabe: document.querySelector(".platz4_buchstabe"),
-        ausgabePlatz_5_Buchsabe: document.querySelector(".platz5_buchstabe"),
-
-        ausgabePlatz_1_Fehler: document.querySelector(".platz1_fehler"),
-        ausgabePlatz_2_Fehler: document.querySelector(".platz2_fehler"),
-        ausgabePlatz_3_Fehler: document.querySelector(".platz3_fehler"),
-        ausgabePlatz_4_Fehler: document.querySelector(".platz4_fehler"),
-        ausgabePlatz_5_Fehler: document.querySelector(".platz5_fehler"),
-
-        ausgabePlatz_1_Von: document.querySelector(".platz1_von"),
-        ausgabePlatz_2_Von: document.querySelector(".platz2_von"),
-        ausgabePlatz_3_Von: document.querySelector(".platz3_von"),
-        ausgabePlatz_4_Von: document.querySelector(".platz4_von"),
-        ausgabePlatz_4_Von: document.querySelector(".platz5_von"),
+        this.textLaufM.innerHTML = "<u>" + Menue.getAusgewählterText()[counter] + "<u>"
+        this.textLaufA.innerText = Menue.getAusgewählterText().slice(counter + 1, counter + 15)
     }
 }
 
-StartAnzeige.flackernAnzeige()
-//StartAnzeige.ausblenden()
-Menue._timerStart()
-Menue._timerStop()
-Menue.setUserTime()
-Menue.timerStopButton()
-Menue.setText()
+const Tastatur = {
 
-TextLauf.laufenderText(Tastatur.textCounter)
+    taste1: document.querySelector(".tasta_taste-1"),
+    taste2: document.querySelector(".tasta_taste-2"),
+    taste3: document.querySelector(".tasta_taste-3"),
+    taste4: document.querySelector(".tasta_taste-4"),
+    taste5: document.querySelector(".tasta_taste-5"),
+    tasteGelb: document.querySelector(".tasta_taste-gelb"),
+    tasteRot: document.querySelector(".tasta_taste-rot"),
+    textCounter: 0,
+
+    einzelneTasten: {
+        tasteLeer: () => {
+            Tastatur.taste1.classList.add("green")
+        },
+
+        tasteK_a: () => {
+            Tastatur.taste1.classList.add("green")
+            Tastatur.taste4.classList.add("green")
+        },
+
+        tasteK_b: () => {
+            Tastatur.taste1.classList.add("green")
+            Tastatur.taste3.classList.add("green")
+            Tastatur.taste4.classList.add("green")
+        },
+
+        tasteK_c: () => {
+            Tastatur.taste2.classList.add("green")
+            Tastatur.taste4.classList.add("green")
+        },
+
+        tasteK_d: () => {
+            Tastatur.taste1.classList.add("green")
+            Tastatur.taste5.classList.add("green")
+        },
+
+        tasteK_e: () => {
+            Tastatur.taste3.classList.add("green")
+        },
+
+        tasteK_f: () => {
+            Tastatur.taste1.classList.add("green")
+            Tastatur.taste2.classList.add("green")
+        },
+
+        tasteK_g: () => {
+            Tastatur.taste4.classList.add("green")
+            Tastatur.taste5.classList.add("green")
+        },
+
+        tasteK_h: () => {
+            Tastatur.taste1.classList.add("green")
+            Tastatur.taste2.classList.add("green")
+            Tastatur.taste5.classList.add("green")
+        },
+
+        tasteK_i: () => {
+            Tastatur.taste4.classList.add("green")
+        },
+
+        tasteK_j: () => {
+            Tastatur.taste2.classList.add("green")
+            Tastatur.taste5.classList.add("green")
+        },
+
+        tasteK_k: () => {
+            Tastatur.taste2.classList.add("green")
+            Tastatur.taste3.classList.add("green")
+            Tastatur.taste4.classList.add("green")
+            Tastatur.taste5.classList.add("green")
+        },
+
+        tasteK_l: () => {
+            Tastatur.taste2.classList.add("green")
+            Tastatur.taste3.classList.add("green")
+        },
+
+        tasteK_m: () => {
+            Tastatur.taste3.classList.add("green")
+            Tastatur.taste4.classList.add("green")
+            Tastatur.taste5.classList.add("green")
+        },
+
+        tasteK_n: () => {
+            Tastatur.taste5.classList.add("green")
+        },
+
+        tasteK_o: () => {
+            Tastatur.taste3.classList.add("green")
+            Tastatur.taste4.classList.add("green")
+        },
+
+        tasteK_p: () => {
+            Tastatur.taste1.classList.add("green")
+            Tastatur.taste2.classList.add("green")
+            Tastatur.taste3.classList.add("green")
+            Tastatur.taste4.classList.add("green")
+        },
+
+        tasteK_q: () => {
+            Tastatur.taste1.classList.add("green")
+            Tastatur.taste2.classList.add("green")
+            Tastatur.taste4.classList.add("green")
+        },
+
+        tasteK_r: () => {
+            Tastatur.taste1.classList.add("green")
+            Tastatur.taste3.classList.add("green")
+        },
+
+        tasteK_s: () => {
+            Tastatur.taste2.classList.add("green")
+        },
+
+        tasteK_t: () => {
+            Tastatur.taste1.classList.add("green")
+            Tastatur.taste3.classList.add("green")
+            Tastatur.taste4.classList.add("green")
+            Tastatur.taste5.classList.add("green")
+        },
+
+        tasteK_u: () => {
+            Tastatur.taste2.classList.add("green")
+            Tastatur.taste3.classList.add("green")
+            Tastatur.taste4.classList.add("green")
+        },
+
+        tasteK_v: () => {
+            Tastatur.taste2.classList.add("green")
+            Tastatur.taste4.classList.add("green")
+            Tastatur.taste5.classList.add("green")
+        },
+
+        tasteK_w: () => {
+            Tastatur.taste1.classList.add("green")
+            Tastatur.taste2.classList.add("green")
+            Tastatur.taste3.classList.add("green")
+            Tastatur.taste4.classList.add("green")
+            Tastatur.taste5.classList.add("green")
+        },
+
+        tasteK_x: () => {
+            Tastatur.taste1.classList.add("green")
+            Tastatur.taste2.classList.add("green")
+            Tastatur.taste4.classList.add("green")
+            Tastatur.taste5.classList.add("green")
+        },
+
+        tasteK_y: () => {
+            Tastatur.taste1.classList.add("green")
+            Tastatur.taste4.classList.add("green")
+            Tastatur.taste5.classList.add("green")
+        },
+
+        tasteK_z: () => {
+            Tastatur.taste1.classList.add("green")
+            Tastatur.taste2.classList.add("green")
+            Tastatur.taste3.classList.add("green")
+        },
+    },
+
+    tastaturAnzeige: (aktuelleTaste) => {
+        const kleinBuchstaben = [
+            [" ", Tastatur.einzelneTasten.tasteLeer],
+            ["a", Tastatur.einzelneTasten.tasteK_a],
+            ["b", Tastatur.einzelneTasten.tasteK_b],
+            ["c", Tastatur.einzelneTasten.tasteK_c],
+            ["d", Tastatur.einzelneTasten.tasteK_d],
+            ["e", Tastatur.einzelneTasten.tasteK_e],
+            ["f", Tastatur.einzelneTasten.tasteK_f],
+            ["g", Tastatur.einzelneTasten.tasteK_g],
+            ["h", Tastatur.einzelneTasten.tasteK_h],
+            ["i", Tastatur.einzelneTasten.tasteK_i],
+            ["j", Tastatur.einzelneTasten.tasteK_j],
+            ["k", Tastatur.einzelneTasten.tasteK_k],
+            ["l", Tastatur.einzelneTasten.tasteK_l],
+            ["m", Tastatur.einzelneTasten.tasteK_m],
+            ["n", Tastatur.einzelneTasten.tasteK_n],
+            ["o", Tastatur.einzelneTasten.tasteK_o],
+            ["p", Tastatur.einzelneTasten.tasteK_p],
+            ["q", Tastatur.einzelneTasten.tasteK_q],
+            ["r", Tastatur.einzelneTasten.tasteK_r],
+            ["s", Tastatur.einzelneTasten.tasteK_s],
+            ["t", Tastatur.einzelneTasten.tasteK_t],
+            ["u", Tastatur.einzelneTasten.tasteK_u],
+            ["v", Tastatur.einzelneTasten.tasteK_v],
+            ["w", Tastatur.einzelneTasten.tasteK_w],
+            ["x", Tastatur.einzelneTasten.tasteK_x],
+            ["y", Tastatur.einzelneTasten.tasteK_y],
+            ["z", Tastatur.einzelneTasten.tasteK_z],
+        ]
+        for (const buchstabe of kleinBuchstaben) {
+            if (buchstabe[0] === aktuelleTaste) {
+                buchstabe[1]()
+            }
+        }
+    },
+
+    clearTastatur: () => {
+        Tastatur.taste1.classList.remove("green")
+        Tastatur.taste2.classList.remove("green")
+        Tastatur.taste3.classList.remove("green")
+        Tastatur.taste4.classList.remove("green")
+        Tastatur.taste5.classList.remove("green")
+        Tastatur.tasteGelb.classList.remove("green")
+        Tastatur.tasteRot.classList.remove("green")
+        Tastatur.tasteGelb.classList.remove("shift")
+        Tastatur.tasteRot.classList.remove("shift")
+    },
+
+    stopProgrammAbfrage: () => {
+        if (Tastatur.textCounter >= Menue.ausgewählterText.length) {
+            alert()
+            //autoAuswertung()
+        }
+    },
+
+    zählerTextCounter: () => {
+        if (Tastatur.textCounter <= Menue.ausgewählterText.length) {
+            Tastatur.textCounter++
+        }
+    }
+
+
+}
+
+const Auswertung = {
+
+    auswertungAnzeigen: document.querySelector(".auswertung"),
+    resetButton: document.querySelector(".auswertung_resetButton"),
+    ausgabeFehlerGesamt: document.querySelector(".span_fehlergesamt"),
+    ausgabeFehlerProzent: document.querySelector(".span_fehlerProzent"),
+    ausgabeAnschläge: document.querySelector(".span_anschlaege"),
+    ausgabePlatz_1_Buchsabe: document.querySelector(".platz1_buchstabe"),
+    ausgabePlatz_2_Buchsabe: document.querySelector(".platz2_buchstabe"),
+    ausgabePlatz_3_Buchsabe: document.querySelector(".platz3_buchstabe"),
+    ausgabePlatz_4_Buchsabe: document.querySelector(".platz4_buchstabe"),
+    ausgabePlatz_5_Buchsabe: document.querySelector(".platz5_buchstabe"),
+
+    ausgabePlatz_1_Fehler: document.querySelector(".platz1_fehler"),
+    ausgabePlatz_2_Fehler: document.querySelector(".platz2_fehler"),
+    ausgabePlatz_3_Fehler: document.querySelector(".platz3_fehler"),
+    ausgabePlatz_4_Fehler: document.querySelector(".platz4_fehler"),
+    ausgabePlatz_5_Fehler: document.querySelector(".platz5_fehler"),
+
+    ausgabePlatz_1_Von: document.querySelector(".platz1_von"),
+    ausgabePlatz_2_Von: document.querySelector(".platz2_von"),
+    ausgabePlatz_3_Von: document.querySelector(".platz3_von"),
+    ausgabePlatz_4_Von: document.querySelector(".platz4_von"),
+    ausgabePlatz_4_Von: document.querySelector(".platz5_von"),
+
+
+    autoAuswertung: () => {
+        setTimeout(clearInterval(Menue._time))
+        StartAnzeige.ausblenden()
+        Auswertung.auswertungAnzeigen.classList.remove("auswertung_none")
+        Auswertung.auswertungAnzeigen.classList.add("auswertung_notNone")
+        
+        Auswertung.ausgabeAnschläge.innerText = parseInt(Menue.getAnschlagProMin())
+
+    }
+}
+
+const ProgrammStart = {
+
+    immer: () => {
+        StartAnzeige.flackernAnzeige()
+        TextLauf.laufenderText(Tastatur.textCounter)
+        Menue.set_UserTime()
+        Menue.timerStopButton()
+        Menue.setText()
+    },
+
+    ersteInteraktion: () => {
+        Menue._timerStart()
+        Menue._timerStop()
+        StartAnzeige.ausblenden()
+    },
+
+    interAktion: () => {
+        Tastatur.clearTastatur()
+        Tastatur.tastaturAnzeige(Menue.ausgewählterText[Tastatur.textCounter])
+        Tastatur.stopProgrammAbfrage()
+        TextLauf.laufenderText(Tastatur.textCounter)
+        Menue.anschlagMessung()
+    },
+
+    tastenAbfrage: () => {
+        let gestartet = false
+
+        window.addEventListener("keypress", (taste) => {
+            console.log(taste)
+            if (String.fromCharCode(taste.keyCode) === " " && !gestartet) {
+                ProgrammStart.ersteInteraktion()
+                gestartet = true
+            }
+
+            if (gestartet) {
+                ProgrammStart.interAktion()
+                Tastatur.zählerTextCounter()
+            }
+
+        })
+    },
+
+
+
+
+}
+//StartAnzeige.ausblenden()
+
+
+Tastatur.einzelneTasten.tasteLeer()
+Tastatur.einzelneTasten.tasteK_a()
+Tastatur.clearTastatur()
+ProgrammStart.immer()
+ProgrammStart.tastenAbfrage()
