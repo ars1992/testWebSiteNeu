@@ -1,0 +1,8 @@
+{
+  "Text1": "A Content Security Policy (CSP) helps to ensure any content loaded in the page is trusted by the site owner. CSPs mitigate cross-site scripting (XSS) attacks because they can block unsafe scripts injected by attackers. However, the CSP can easily be bypassed if it is not strict enough. Check out Mitigate cross-site scripting (XSS) with a strict Content Security Policy (CSP) for more information. Lighthouse collects CSPs enforced on the main document, and reports issues from CSP Evaluator if they can be bypassed.",
+  "Text2": "hallo wie gehts",
+  "Text3": "Was machst du heute?",
+  "Text4": "Der Unterschied zwischen den beiden Versionen liegt darin, dass mit load das Event erst ausgelöst wird, wenn das vollständige Dokument (der DOM-Baum) inklusive aller externen Ressourcen wie JavaScript-Dateien, CSS-Dateien oder Bilder geladen wurde. Beim Event DCOMContentLoaded hingegen wird das Event ausgelöst, wenn nur der gesamte DOM-Baum der Webseite geladen wurde. In der Praxis empfehle ich daher DOMContentLoaded anstelle von load zu verwenden, weil hierbei nicht unnötig auf das Laden von externen Ressourcen gewartet werden muss.",
+  "Text5": ""
+}
+ 

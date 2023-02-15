@@ -131,6 +131,46 @@ const StartAnzeige = {
     },
 }
 
+const JsonTextlader = {
+
+    jsonDateiName: "test.json",
+    data: null,
+
+    _getJsonDatei: () => {
+        let xml = null
+        if (window.XMLHttpRequest) {
+            xml = new XMLHttpRequest()
+        }
+
+        if (xml === null) {
+            console.log("Fehler")
+        }
+
+        xml.onreadystatechange = function () {
+            if (xml.readyState === 4 && xml.status === 200) {
+                JsonTextlader.data = xml.responseText
+            }
+        }
+
+        xml.open("GET", JsonTextlader.jsonDateiName, true)
+        xml.send()
+    },
+
+
+
+    gewähltenTextAusJsonFileFinden: (jsonFile, auswahl) => {
+        JsonTextlader.jsonDateiName = jsonFile
+        JsonTextlader._getJsonDatei()
+        const texte = JSON.parse(JsonTextlader.data , { encoding: "utf-8" })
+        for (const text in texte) {
+            if (text === auswahl) {
+                console.log(texte[text])
+                return texte[text]
+            }
+        }
+    }
+}
+
 const Menue = {
 
     menueTextAuswahl: document.querySelector(".menue_textAuswahl"),
@@ -139,12 +179,12 @@ const Menue = {
     menueAnschlagAusgabe: document.querySelector(".menue_anschlaegeMin"),
     menueZeitAusgabe: document.querySelector(".menue_timer"),
 
-    _userTime: 55555,
+    _userTime: 10,
     _time: null,
     _aktTime: 0,
     _anschlaegeProMin: 0,
 
-    ausgewählterText: "Schreibtrainer V1.0",
+    ausgewählterText: "V1.0 Schreibtrainer",
 
     _timerStop: function () {
         setInterval(() => {
@@ -180,12 +220,12 @@ const Menue = {
         })
     },
 
-    // noch json hinzufügen als text quelle
     setText: function () {
         let ersteWahlText = true
         this.menueTextAuswahl.addEventListener("click", () => {
             if (!ersteWahlText) {
-                this.ausgewählterText = this.menueTextAuswahl.value
+                console.log(JsonTextlader.gewähltenTextAusJsonFileFinden("test.json", this.menueTextAuswahl.value), "setText")
+                this.ausgewählterText = JsonTextlader.gewähltenTextAusJsonFileFinden("test.json", this.menueTextAuswahl.value)
             } else {
                 ersteWahlText = false
             }
@@ -198,7 +238,7 @@ const Menue = {
             if (Tastatur.textCounter / Menue._aktTime === Infinity) {
                 Menue.menueAnschlagAusgabe.innerText = 0
             } else if (Menue._aktTime < this._userTime && Menue._aktTime !== 0) {
-                Menue._anschlaegeProMin = Tastatur.textCounter / Menue._aktTime * 60
+                Menue._anschlaegeProMin = (Tastatur.textCounter -1) / Menue._aktTime * 60
                 Menue.menueAnschlagAusgabe.innerText = parseInt(Menue._anschlaegeProMin)
             }
         }, 100)
@@ -525,6 +565,7 @@ const Auswertung = {
         Auswertung.ausgabePlatz_5_Von.innerText = listeTopFünfFehler[4][2]
     },
 
+    n: 2,
     auswertungReset: () => {
         Auswertung.resetButton.addEventListener("click", () => {
             Auswertung.auswertungAnzeigen.classList.remove("auswertung_notNone")
@@ -534,7 +575,8 @@ const Auswertung = {
             StartAnzeige.flackernAnzeige()
             Tastatur.setTextCounter(0)
             Menue.setAnzeigeZeitAnschlagAufNull()
-            Menue.ausgewählterText = "nnn"
+            let n = Auswertung.n++
+            Menue.ausgewählterText = `V${n}.0 Schreibtrainer`
 
             Tastatur.clearTastatur()
             TextLauf.laufenderText(Tastatur.textCounter)
@@ -572,7 +614,6 @@ const ProgrammStart = {
         TextLauf.laufenderText(Tastatur.textCounter)
         Menue.anschlagMessung()
         fehlerVerarbeitung.setZeichenZähler(Menue.getAusgewählterText()[Tastatur.textCounter])
-        console.log(String.fromCharCode(taste.keyCode), Menue.ausgewählterText[Tastatur.textCounter], "test")
         fehlerVerarbeitung.setFehlerZähler(
             String.fromCharCode(taste.keyCode),
             Menue.getAusgewählterText()[Tastatur.textCounter - 1]
@@ -584,7 +625,7 @@ const ProgrammStart = {
     tastenAbfrage: () => {
         window.addEventListener("keypress", (taste) => {
             console.log(taste)
-            if(Auswertung.inAuswertung){
+            if (Auswertung.inAuswertung) {
                 return
             }
 
@@ -601,9 +642,11 @@ const ProgrammStart = {
     },
 
     START: () => {
-        ProgrammStart.immer()
-        ProgrammStart.tastenAbfrage()
-    }
+        document.addEventListener("DOMContentLoaded", () => {
+            ProgrammStart.immer()
+            ProgrammStart.tastenAbfrage()
+        })
+    },
 }
 
 ProgrammStart.START()

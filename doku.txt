@@ -1,1 +1,16 @@
 Ziel Programm oop 
+
+true und false bei jsonreader verstehen 
+tastenkompinationen beste lösung überlegen 
+erste leertaste wird als anschlag gezählt
+- mit -1 in der formel gelöst
+leertasten im textlauf 
+
+als nächstes in json datei schreiben
+auswertungs objekt zu person speichern 
+person log in
+google ads
+design 
+rechte hand linke hand zur person speichern als objekt ?
+main.js als min.js erstellen
+ 
