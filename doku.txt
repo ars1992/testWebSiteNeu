@@ -13,4 +13,5 @@ google ads
 design 
 rechte hand linke hand zur person speichern als objekt ?
 main.js als min.js erstellen
- 
+js serverseitig
+JsonTextlader php skripte holen 

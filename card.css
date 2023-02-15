@@ -12,7 +12,9 @@
 .tasta{
     grid-column: 3/8;
     grid-row: 2/6;
-    background-color: black;
+    background-color: rgb(41, 41, 41);
+    border: 0.3vw lawngreen solid;
+    border-left: none ;
 }
 
 .tasta_grid{
@@ -26,6 +28,13 @@
     width: 5vw;
     height: 5vw;
     margin: 1vw;
+    border-radius: 10%;
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    font-size: 2vw;
+    border-bottom: 0.3vw black solid;
+    border-right: 0.3vw black solid;
 }
 
 .taste-controll{
@@ -44,6 +53,7 @@
     grid-column: 9;
     grid-row: 2;
     background-color: blue;
+    color: whitesmoke;
 }
 
 .tasta_taste-2{
@@ -53,9 +63,6 @@
 }
 
 .tasta_taste-3{
-    display: flex;
-    align-items:center;
-    justify-content: center;
     grid-column: 6;
     grid-row: 2;
 }
@@ -101,7 +108,9 @@
 /* Spezielle Anzeigen */
 
 .shift{
-    background-color: lightgreen;
+    background-color: rgb(56, 251, 56);
+    box-shadow: 0 0 2vw green;
+    border: none;
 }
 
 .red{
@@ -114,7 +123,9 @@
 
 .green{
     background-color: green;
-}
+    box-shadow: 0 0 2vw green;
+    border: none;
+} 
 
 .white{
     background-color: whitesmoke;
@@ -128,7 +139,7 @@
 .start_flackern{
     transition: 2s;
     font-size: 1vw;
-    color: rgb(23, 23, 69);
+    color: rgb(41, 41, 41);
     margin-top: 1vw;
     margin-bottom: 1vw;
     text-shadow: 1vw 1vw 1vw;
@@ -140,7 +151,11 @@
     grid-column: 3/9;
     text-align: center;
     font-size: 2vw;
-    border: 2px black solid;
+    background-color: aqua;
+    color: rgb(41, 41, 41);
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    border-bottom: 0.7vw black solid
 }
 
 /* Auswertung */
