@@ -2,8 +2,9 @@
     grid-column: 8/9;
     grid-row: 1/6;
     background-color: aqua;
-    border-top-right-radius: 50%;
-    border-top: 0.7vw black solid
+    border-top-right-radius: 25%;
+    border-top: 0.7vw lawngreen solid;
+    border-bottom: 0.3vw lawngreen solid;
 
 }
 
@@ -33,6 +34,17 @@
     border-radius: 10%;
 }
 
+.menue_startButton:hover{
+    cursor: pointer;
+    border: none;
+    border-top: 0.2vw black solid;
+    border-right: 0.2vw black solid;
+}
+
+.menue_startButton:active{
+    border: none;
+}
+
 .menue_paragraphTextAuswahl{
     font-size: 1.5vw;
     grid-column: 2;
@@ -50,6 +62,16 @@
     border-bottom: 0.2vw black solid;
     border-left: 0.2vw black solid;
     border-radius: 10%;
+}
+.menue_zeitAuswahl:hover,
+.menue_textAuswahl:hover{
+    border: none;
+    border-top: 0.2vw black solid;
+    border-right: 0.2vw black solid;
+}
+
+.menue_zeitAuswahl:focus-visible{
+    outline: red auto 2px;
 }
 
 .menue_paragrapZeitAuswahl{
@@ -77,5 +99,5 @@
     grid-row: 7;
     text-align: center;
     font-size: 3vw;
-    margin: 1 vw 0;
+    margin: 1vw 0;
 }

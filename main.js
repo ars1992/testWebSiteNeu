@@ -161,16 +161,16 @@ const JsonTextlader = {
     gewähltenTextAusJsonFileFinden: (jsonFile, auswahl) => {
         JsonTextlader.jsonDateiName = jsonFile
         JsonTextlader._getJsonDatei()
-        const texte = JSON.parse(JsonTextlader.data , { encoding: "utf-8" })
+        const texte = JSON.parse(JsonTextlader.data, { encoding: "utf-8" })
         for (const text in texte) {
             if (text === auswahl) {
-                console.log(texte[text])
                 return texte[text]
             }
         }
     }
 }
 
+// interval für Anschläge in Auswertung ausschalten
 const Menue = {
 
     menueTextAuswahl: document.querySelector(".menue_textAuswahl"),
@@ -223,11 +223,8 @@ const Menue = {
     setText: function () {
         let ersteWahlText = true
         this.menueTextAuswahl.addEventListener("click", () => {
-            if (!ersteWahlText) {
-                console.log(JsonTextlader.gewähltenTextAusJsonFileFinden("test.json", this.menueTextAuswahl.value), "setText")
+            if (ersteWahlText) {
                 this.ausgewählterText = JsonTextlader.gewähltenTextAusJsonFileFinden("test.json", this.menueTextAuswahl.value)
-            } else {
-                ersteWahlText = false
             }
             TextLauf.laufenderText(Tastatur.textCounter)
         })
@@ -238,7 +235,7 @@ const Menue = {
             if (Tastatur.textCounter / Menue._aktTime === Infinity) {
                 Menue.menueAnschlagAusgabe.innerText = 0
             } else if (Menue._aktTime < this._userTime && Menue._aktTime !== 0) {
-                Menue._anschlaegeProMin = (Tastatur.textCounter -1) / Menue._aktTime * 60
+                Menue._anschlaegeProMin = (Tastatur.textCounter - 1) / Menue._aktTime * 60
                 Menue.menueAnschlagAusgabe.innerText = parseInt(Menue._anschlaegeProMin)
             }
         }, 100)
@@ -267,15 +264,15 @@ const TextLauf = {
     textLaufA: document.querySelector(".text_lauf-a"),
 
     laufenderText: function (counter) {
-        console.log("laufenderText", Tastatur.textCounter)
+
         if (counter < 15) {
-            this.textLaufF.innerText = Menue.getAusgewählterText().slice(0, counter)
+            this.textLaufF.placeholder = Menue.getAusgewählterText().slice(0, counter)
         } else {
-            this.textLaufF.innerText = Menue.getAusgewählterText().slice(counter - 15, counter)
+            this.textLaufF.placeholder = Menue.getAusgewählterText().slice(counter - 15, counter)
         }
 
         this.textLaufM.innerHTML = "<u>" + Menue.getAusgewählterText()[counter] + "<u>"
-        this.textLaufA.innerText = Menue.getAusgewählterText().slice(counter + 1, counter + 15)
+        this.textLaufA.placeholder = Menue.getAusgewählterText().slice(counter + 1, counter + 15)
     }
 }
 
@@ -290,7 +287,10 @@ const Tastatur = {
     tasteRot: document.querySelector(".tasta_taste-rot"),
     textCounter: 0,
 
-    einzelneTasten: {
+    einzelneTastenBuchstaben: {
+
+        schiftInterval: null,
+
         tasteLeer: () => {
             Tastatur.taste1.classList.add("green")
         },
@@ -439,41 +439,258 @@ const Tastatur = {
             Tastatur.taste2.classList.add("green")
             Tastatur.taste3.classList.add("green")
         },
+
+        // Umlaute
+
+        tasteK_ä: () => {
+            Tastatur.taste1.classList.add("green")
+            Tastatur.taste3.classList.add("green")
+            Tastatur.taste5.classList.add("green")
+        },
+
+        tasteK_ö: () => {
+            Tastatur.taste3.classList.add("green")
+            Tastatur.taste4.classList.add("green")
+        },
+
+        tasteK_ü: () => {
+            Tastatur.taste2.classList.add("green")
+            Tastatur.taste3.classList.add("green")
+            Tastatur.taste5.classList.add("green")
+        },
+
+        tasteK_ß: () => {
+            Tastatur.taste1.classList.add("green")
+            Tastatur.taste2.classList.add("green")
+            Tastatur.taste3.classList.add("green")
+            Tastatur.taste5.classList.add("green")
+        },
+
+        shiftAnzeige: () => {
+            Tastatur.einzelneTastenBuchstaben.schiftInterval = setInterval(() => {
+                Tastatur.tasteRot.classList.toggle("shift")
+                Tastatur.tasteGelb.classList.toggle("shift")
+            }, 500)
+        }
+    },
+
+    einzelneTastenZahlen: {
+        zahlInterval: null,
+
+        taste_0: () => {
+            Tastatur.taste2.classList.add("green")
+            Tastatur.taste3.classList.add("green")
+            Tastatur.taste4.classList.add("green")
+        },
+
+        taste_1: () => {
+            Tastatur.taste2.classList.add("green")
+        },
+
+        taste_2: () => {
+            Tastatur.taste3.classList.add("green")
+        },
+
+        taste_3: () => {
+            Tastatur.taste4.classList.add("green")
+        },
+
+        taste_4: () => {
+            Tastatur.taste1.classList.add("green")
+            Tastatur.taste2.classList.add("green")
+        },
+
+        taste_5: () => {
+            Tastatur.taste1.classList.add("green")
+            Tastatur.taste3.classList.add("green")
+        },
+
+        taste_6: () => {
+            Tastatur.taste1.classList.add("green")
+            Tastatur.taste4.classList.add("green")
+        },
+
+        taste_7: () => {
+            Tastatur.taste2.classList.add("green")
+            Tastatur.taste3.classList.add("green")
+        },
+
+        taste_8: () => {
+            Tastatur.taste3.classList.add("green")
+            Tastatur.taste4.classList.add("green")
+        },
+
+        taste_9: () => {
+            Tastatur.taste4.classList.add("green")
+            Tastatur.taste5.classList.add("green")
+        },
+    },
+
+    einzelneTastenSonderzeichen: {
+
+        intervalSonderzeichen: null,
+
+        taste_punkt: () => {
+            Tastatur.taste3.classList.add("green")
+            Tastatur.tasteRot.classList.add("green")
+        },
+
+        taste_komma: () => {
+            Tastatur.taste2.classList.add("green")
+            Tastatur.tasteGelb.classList.add("green")
+        },
+
+        taste_semikolon: () => {
+            Tastatur.taste1.classList.add("green")
+            Tastatur.taste2.classList.add("green")
+            Tastatur.taste3.classList.add("green")
+            Tastatur.tasteGelb.classList.add("green")
+            Tastatur.tasteRot.classList.add("green")
+        },
+
+        taste_doppelpunkt: () => {
+            Tastatur.taste2.classList.add("green")
+            Tastatur.taste3.classList.add("green")
+            Tastatur.tasteGelb.classList.add("green")
+            Tastatur.tasteRot.classList.add("green")
+        },
+
+        sonderzeichenAnzeige: (farbe) => {
+            Tastatur.einzelneTastenSonderzeichen.intervalSonderzeichen = setInterval(() => {
+                Tastatur[`taste${farbe}`].classList.toggle("shift")
+            }, 500)
+        }
     },
 
     tastaturAnzeige: (aktuelleTaste) => {
         const kleinBuchstaben = [
-            [" ", Tastatur.einzelneTasten.tasteLeer],
-            ["a", Tastatur.einzelneTasten.tasteK_a],
-            ["b", Tastatur.einzelneTasten.tasteK_b],
-            ["c", Tastatur.einzelneTasten.tasteK_c],
-            ["d", Tastatur.einzelneTasten.tasteK_d],
-            ["e", Tastatur.einzelneTasten.tasteK_e],
-            ["f", Tastatur.einzelneTasten.tasteK_f],
-            ["g", Tastatur.einzelneTasten.tasteK_g],
-            ["h", Tastatur.einzelneTasten.tasteK_h],
-            ["i", Tastatur.einzelneTasten.tasteK_i],
-            ["j", Tastatur.einzelneTasten.tasteK_j],
-            ["k", Tastatur.einzelneTasten.tasteK_k],
-            ["l", Tastatur.einzelneTasten.tasteK_l],
-            ["m", Tastatur.einzelneTasten.tasteK_m],
-            ["n", Tastatur.einzelneTasten.tasteK_n],
-            ["o", Tastatur.einzelneTasten.tasteK_o],
-            ["p", Tastatur.einzelneTasten.tasteK_p],
-            ["q", Tastatur.einzelneTasten.tasteK_q],
-            ["r", Tastatur.einzelneTasten.tasteK_r],
-            ["s", Tastatur.einzelneTasten.tasteK_s],
-            ["t", Tastatur.einzelneTasten.tasteK_t],
-            ["u", Tastatur.einzelneTasten.tasteK_u],
-            ["v", Tastatur.einzelneTasten.tasteK_v],
-            ["w", Tastatur.einzelneTasten.tasteK_w],
-            ["x", Tastatur.einzelneTasten.tasteK_x],
-            ["y", Tastatur.einzelneTasten.tasteK_y],
-            ["z", Tastatur.einzelneTasten.tasteK_z],
+            [" ", Tastatur.einzelneTastenBuchstaben.tasteLeer],
+            ["a", Tastatur.einzelneTastenBuchstaben.tasteK_a],
+            ["b", Tastatur.einzelneTastenBuchstaben.tasteK_b],
+            ["c", Tastatur.einzelneTastenBuchstaben.tasteK_c],
+            ["d", Tastatur.einzelneTastenBuchstaben.tasteK_d],
+            ["e", Tastatur.einzelneTastenBuchstaben.tasteK_e],
+            ["f", Tastatur.einzelneTastenBuchstaben.tasteK_f],
+            ["g", Tastatur.einzelneTastenBuchstaben.tasteK_g],
+            ["h", Tastatur.einzelneTastenBuchstaben.tasteK_h],
+            ["i", Tastatur.einzelneTastenBuchstaben.tasteK_i],
+            ["j", Tastatur.einzelneTastenBuchstaben.tasteK_j],
+            ["k", Tastatur.einzelneTastenBuchstaben.tasteK_k],
+            ["l", Tastatur.einzelneTastenBuchstaben.tasteK_l],
+            ["m", Tastatur.einzelneTastenBuchstaben.tasteK_m],
+            ["n", Tastatur.einzelneTastenBuchstaben.tasteK_n],
+            ["o", Tastatur.einzelneTastenBuchstaben.tasteK_o],
+            ["p", Tastatur.einzelneTastenBuchstaben.tasteK_p],
+            ["q", Tastatur.einzelneTastenBuchstaben.tasteK_q],
+            ["r", Tastatur.einzelneTastenBuchstaben.tasteK_r],
+            ["s", Tastatur.einzelneTastenBuchstaben.tasteK_s],
+            ["t", Tastatur.einzelneTastenBuchstaben.tasteK_t],
+            ["u", Tastatur.einzelneTastenBuchstaben.tasteK_u],
+            ["v", Tastatur.einzelneTastenBuchstaben.tasteK_v],
+            ["w", Tastatur.einzelneTastenBuchstaben.tasteK_w],
+            ["x", Tastatur.einzelneTastenBuchstaben.tasteK_x],
+            ["y", Tastatur.einzelneTastenBuchstaben.tasteK_y],
+            ["z", Tastatur.einzelneTastenBuchstaben.tasteK_z],
+            ["ä", Tastatur.einzelneTastenBuchstaben.tasteK_ä],
+            ["ö", Tastatur.einzelneTastenBuchstaben.tasteK_ö],
+            ["ü", Tastatur.einzelneTastenBuchstaben.tasteK_ü],
+            ["ß", Tastatur.einzelneTastenBuchstaben.tasteK_ß],
         ]
+
+        const zahlen = [
+            ["0", Tastatur.einzelneTastenZahlen.taste_0],
+            ["1", Tastatur.einzelneTastenZahlen.taste_1],
+            ["2", Tastatur.einzelneTastenZahlen.taste_2],
+            ["3", Tastatur.einzelneTastenZahlen.taste_3],
+            ["4", Tastatur.einzelneTastenZahlen.taste_4],
+            ["5", Tastatur.einzelneTastenZahlen.taste_5],
+            ["6", Tastatur.einzelneTastenZahlen.taste_6],
+            ["7", Tastatur.einzelneTastenZahlen.taste_7],
+            ["8", Tastatur.einzelneTastenZahlen.taste_8],
+            ["9", Tastatur.einzelneTastenZahlen.taste_9]
+        ]
+
+        const sonderzeichen = [
+            [
+                ["€", Tastatur.einzelneTastenBuchstaben.tasteLeer],
+                ["'", Tastatur.einzelneTastenBuchstaben.tasteK_a],
+                ["-", Tastatur.einzelneTastenBuchstaben.tasteK_b],
+                ["]", Tastatur.einzelneTastenBuchstaben.tasteK_c],
+                ["^", Tastatur.einzelneTastenBuchstaben.tasteK_d],
+                ["[", Tastatur.einzelneTastenBuchstaben.tasteK_e],
+                ["?", Tastatur.einzelneTastenBuchstaben.tasteK_f],
+                ["=", Tastatur.einzelneTastenBuchstaben.tasteK_g],
+                ["#", Tastatur.einzelneTastenBuchstaben.tasteK_h],
+                ["!", Tastatur.einzelneTastenBuchstaben.tasteK_i],
+                ["§", Tastatur.einzelneTastenBuchstaben.tasteK_j],
+                ["@", Tastatur.einzelneTastenBuchstaben.tasteK_k],
+                ["_", Tastatur.einzelneTastenBuchstaben.tasteK_l],
+                [">", Tastatur.einzelneTastenBuchstaben.tasteK_m],
+                [")", Tastatur.einzelneTastenBuchstaben.tasteK_n],
+                ["|", Tastatur.einzelneTastenBuchstaben.tasteK_o],
+                ["+", Tastatur.einzelneTastenBuchstaben.tasteK_p],
+                ["/", Tastatur.einzelneTastenBuchstaben.tasteK_q],
+                ["$", Tastatur.einzelneTastenBuchstaben.tasteK_r],
+                ["*", Tastatur.einzelneTastenBuchstaben.tasteK_s],
+                ["%", Tastatur.einzelneTastenBuchstaben.tasteK_t],
+                ["&", Tastatur.einzelneTastenBuchstaben.tasteK_u],
+                ["(", Tastatur.einzelneTastenBuchstaben.tasteK_v],
+                ["<", Tastatur.einzelneTastenBuchstaben.tasteK_w],
+                ["\\", Tastatur.einzelneTastenBuchstaben.tasteK_x],
+                ["`", Tastatur.einzelneTastenBuchstaben.tasteK_y],
+                ["\"", Tastatur.einzelneTastenBuchstaben.tasteK_z],
+            ],
+            [
+                ["}", Tastatur.einzelneTastenBuchstaben.tasteK_c],
+                ["{", Tastatur.einzelneTastenBuchstaben.tasteK_d]
+            ], 
+            [
+                [".", Tastatur.einzelneTastenSonderzeichen.taste_punkt],
+                [",", Tastatur.einzelneTastenSonderzeichen.taste_komma],
+                [":", Tastatur.einzelneTastenSonderzeichen.taste_doppelpunkt],
+                [";", Tastatur.einzelneTastenSonderzeichen.taste_semikolon]
+            ]
+        ]
+
+        // Buchstaben
         for (const buchstabe of kleinBuchstaben) {
             if (buchstabe[0] === aktuelleTaste) {
                 buchstabe[1]()
+                return
+            } else if (buchstabe[0].toUpperCase() === aktuelleTaste) {
+                Tastatur.einzelneTastenBuchstaben.shiftAnzeige()
+                buchstabe[1]()
+                return
+            }
+        }
+
+        // Zahlen
+        for (const zahl of zahlen) {
+            if (zahl[0] === aktuelleTaste) {
+                Tastatur.einzelneTastenSonderzeichen.sonderzeichenAnzeige("Gelb")
+                zahl[1]()
+                return
+            }
+        }
+
+        // Sonderzeichen
+        for(let i = 0; i < sonderzeichen.length; i++){
+            for(const zeichen of sonderzeichen[i]) {
+                if(zeichen[0] === aktuelleTaste){
+                    if(i === 0){
+                        Tastatur.einzelneTastenSonderzeichen.sonderzeichenAnzeige("Gelb")
+                        zeichen[1]()
+                        return
+                    } else if(i === 1){
+                        Tastatur.einzelneTastenSonderzeichen.sonderzeichenAnzeige("Rot")
+                        zeichen[1]()
+                        return
+                    } else {
+                        zeichen[1]()
+                        return
+                    }
+                }
+
             }
         }
     },
@@ -488,6 +705,8 @@ const Tastatur = {
         Tastatur.tasteRot.classList.remove("green")
         Tastatur.tasteGelb.classList.remove("shift")
         Tastatur.tasteRot.classList.remove("shift")
+        setTimeout(clearInterval(Tastatur.einzelneTastenBuchstaben.schiftInterval))
+        setTimeout(clearInterval(Tastatur.einzelneTastenSonderzeichen.intervalSonderzeichen))
     },
 
     stopProgrammAbfrage: () => {
@@ -624,7 +843,6 @@ const ProgrammStart = {
 
     tastenAbfrage: () => {
         window.addEventListener("keypress", (taste) => {
-            console.log(taste)
             if (Auswertung.inAuswertung) {
                 return
             }

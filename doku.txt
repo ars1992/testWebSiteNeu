@@ -5,6 +5,7 @@ tastenkompinationen beste lösung überlegen
 erste leertaste wird als anschlag gezählt
 - mit -1 in der formel gelöst
 leertasten im textlauf 
+- mit input tags gelöst 
 
 als nächstes in json datei schreiben
 auswertungs objekt zu person speichern 
@@ -15,3 +16,6 @@ rechte hand linke hand zur person speichern als objekt ?
 main.js als min.js erstellen
 js serverseitig
 JsonTextlader php skripte holen 
+
+funktionsschreibweise welche this. zulässt ist besser
+da weis man das man sich im objekt befindet Kapselung

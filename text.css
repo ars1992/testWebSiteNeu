@@ -2,8 +2,8 @@
     grid-column: 3/8;
     grid-row: 1;
     background-color: aqua;
-    border-top-left-radius: 15%;
-    border-top: 0.7vw black solid
+
+    border-top: 0.7vw lawngreen solid
 }
 
 .text_grid{
@@ -24,11 +24,20 @@
     margin-top: 1vw;
 }
 
-
+::placeholder{
+    color: black;
+    opacity: 1;
+}
 
 .text_lauf-f{
     grid-column: 1/12;
     text-align: right;
+    border: none;
+    background-color: aqua;
+}
+
+.text_lauf-f:focus-visible{
+    outline: none;
 }
 
 .text_lauf-m{
@@ -40,4 +49,10 @@
 .text_lauf-a{
     grid-column: 13/23;
     text-align: left;
+    border: none;
+    background-color: aqua;
+}
+
+.text_lauf-a:focus-visible{
+    outline: none;
 }
